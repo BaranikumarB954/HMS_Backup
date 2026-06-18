@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+:host {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+}
+
+ 
+.login-page {
+  min-height: 100vh;
+  background: #F1EFE8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+ 
+.login-container {
+  width: 100%;
+  max-width: 1200px;
+  min-height: 700px;
+
+  display: grid;
+  grid-template-columns: 1fr 480px;
+
+  background: #ffffff;
+  border: 0.5px solid #D3D1C7;
+  border-radius: 12px;
+
+  overflow: hidden;
+}
+
+ 
+.login-branding {
+  border-right: 0.5px solid #D3D1C7;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 64px;
+}
+
+.branding-content {
+  max-width: 460px;
+}
+
+.brand-badge {
+  display: inline-flex;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  background: #E6F1FB;
+  color: #185FA5;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.login-branding h1 {
+  font-size: 34px;
+  font-weight: 700;
+  color: #2C2C2A;
+  margin-bottom: 16px;
+  line-height: 1.25;
+}
+
+.login-branding p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #5F5E5A;
+}
+
+ 
+.login-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 40px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 380px;
+}
+
+ 
+.login-header {
+  margin-bottom: 28px;
+}
+
+.login-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2C2C2A;
+  margin-bottom: 6px;
+}
+
+.login-header p {
+  font-size: 14px;
+  color: #5F5E5A;
+  margin: 0;
+}
+
+ 
+.login-form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+ 
+.login-button {
+  width: 100%;
+  height: 44px;
+  border-radius: 8px;
+  background: #185FA5;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background: #0C447C;
+}
+
+ 
+.secondary-button {
+  width: 100%;
+  height: 44px;
+  border-radius: 8px;
+  background: white;
+  border: 1px solid #D3D1C7;
+  color: #2C2C2A;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.secondary-button:hover {
+  background: #F8F8F5;
+}
+
+ 
+@media (max-width: 992px) {
+  .login-container {
+    grid-template-columns: 1fr;
+  }
+
+  .login-branding {
+    display: none;
+  }
+}

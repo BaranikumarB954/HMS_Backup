@@ -1,0 +1,28 @@
+<!-- HEADER -->
+<app-header></app-header>
+
+<!-- LOADING -->
+<div *ngIf="loading" class="loading-state">
+  Loading...
+</div>
+
+<!-- MAIN -->
+<div *ngIf="!loading" class="dashboard-container">
+
+  <!-- SIDEBAR -->
+  <app-sidebar
+    [menus]="menus"
+    [expandedMenu]="expandedMenu"
+    (menuToggle)="toggleMenu($event)"
+  ></app-sidebar>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <div class="content-inner">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+
+</div>

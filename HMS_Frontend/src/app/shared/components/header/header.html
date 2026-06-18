@@ -1,0 +1,23 @@
+<div class="header-container">
+
+  <!-- LEFT -->
+  <div class="header-left">
+    <div class="logo">HMS</div>
+    <div class="title">Hospital Management System</div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="profile">
+
+    <span class="profile-btn" (click)="toggleDropdown()">
+      <mat-icon>account_circle</mat-icon>
+    </span>
+
+    <div class="dropdown" *ngIf="showDropdown">
+      <div class="dropdown-item" (click)="goToProfile()">Profile</div>
+      <div class="dropdown-item" (click)="logout()">Logout</div>
+    </div>
+
+  </div>
+
+</div>

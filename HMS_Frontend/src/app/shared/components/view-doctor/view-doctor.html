@@ -1,0 +1,121 @@
+<div class="popup-backdrop" (click)="closePopup()">
+
+  <div class="popup" (click)="$event.stopPropagation()">
+
+    <!-- HEADER -->
+    <div class="popup-header">
+      <h2>Doctor Details</h2>
+      <button class="icon-btn" (click)="closePopup()">×</button>
+    </div>
+
+    <!-- BODY -->
+    <div class="popup-body">
+
+      <!-- BASIC INFO -->
+      <div class="section">
+
+        <h3>Basic Information</h3>
+
+        <div class="grid">
+
+          <div class="item">
+            <span class="label">Employee ID</span>
+            <span class="value">{{ data.employeeId }}</span>
+          </div>
+
+          <div class="item">
+            <span class="label">Full Name</span>
+            <span class="value">{{ data.firstName }} {{ data.lastName }}</span>
+          </div>
+
+          <div class="item">
+            <span class="label">Email</span>
+            <span class="value">{{ data.email }}</span>
+          </div>
+
+          <div class="item">
+            <span class="label">Phone</span>
+            <span class="value">{{ data.phone }}</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- MEDICAL INFO -->
+      <div class="section">
+
+        <h3>Medical Information</h3>
+
+        <div class="grid">
+
+          <div class="item">
+            <span class="label">Medical Reg No</span>
+            <span class="value">{{ data.medRegNo }}</span>
+          </div>
+
+          <div class="item">
+            <span class="label">Specialization</span>
+            <span class="value">{{ data.specialization }}</span>
+          </div>
+
+          <div class="item">
+            <span class="label">Qualification</span>
+            <span class="value">{{ data.qualification }}</span>
+          </div>
+
+          <div class="item">
+            <span class="label">Experience</span>
+            <span class="value">{{ data.expYears }} years</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CLINICAL INFO -->
+      <div class="section">
+
+        <h3>Clinical Details</h3>
+
+        <div class="grid">
+
+          <div class="item">
+            <span class="label">Consultation Fee</span>
+            <span class="value">₹{{ data.consultationFee }}</span>
+          </div>
+
+          <div class="item">
+            <span class="label">Available Time</span>
+            <span class="value">
+              {{ data.avlblStartTime }} - {{ data.avlblEndTime }}
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- WORK INFO -->
+      <div class="section">
+
+        <h3>Work Information</h3>
+
+        <div class="grid">
+
+          <div class="item">
+            <span class="label">Designation</span>
+            <span class="value">{{ data.designation }}</span>
+          </div>
+
+          <div class="item">
+            <span class="label">Joining Date</span>
+            <span class="value">{{ data.joiningDate | date }}</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,257 @@
+/* ===========================
+   FONT IMPORT (GLOBAL STYLE)
+=========================== */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+:host {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ===========================
+   PAGE
+=========================== */
+.container {
+  padding: 24px;
+  background: #F1EFE8;
+  min-height: 100vh;
+}
+
+/* ===========================
+   HEADER
+=========================== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #2C2C2A;
+}
+
+/* BUTTON */
+.header button {
+  background: #185FA5;
+  color: #ffffff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.header button:hover {
+  background: #0C447C;
+}
+
+/* ===========================
+   TABLE
+=========================== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border: 0.5px solid #D3D1C7;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* HEADER */
+thead {
+  background: #F9F9F7;
+}
+
+thead th {
+  padding: 14px 12px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: #2C2C2A;
+  border-bottom: 1px solid #D3D1C7;
+}
+
+/* BODY */
+tbody td {
+  padding: 13px 12px;
+  font-size: 14px;
+  color: #5F5E5A;
+  border-bottom: 1px solid #ECEBE4;
+}
+
+/* ROW HOVER */
+tbody tr:hover {
+  background: #F9F9F7;
+}
+
+/* ===========================
+   DELETE BUTTON
+=========================== */
+.delete {
+  background: #FDECEC;
+  color: #B91C1C;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.delete:hover {
+  background: #F8D7DA;
+}
+
+/* ===========================
+   EMPTY STATE (APP COMPONENT)
+=========================== */
+::ng-deep app-no-data {
+  display: block;
+  padding: 30px 0;
+}
+
+/* ===========================
+   MODAL BACKDROP
+=========================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  padding: 20px;
+}
+
+/* ===========================
+   MODAL BOX
+=========================== */
+.modal {
+  width: 420px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+/* ===========================
+   MODAL HEADER
+=========================== */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.modal-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2C2C2A;
+}
+
+.close {
+  cursor: pointer;
+  font-size: 20px;
+  color: #5F5E5A;
+}
+
+.close:hover {
+  color: #B91C1C;
+}
+
+/* ===========================
+   MODAL BODY
+=========================== */
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* INPUTS */
+.modal-body input,
+.modal-body select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #D3D1C7;
+  font-size: 14px;
+}
+
+.modal-body input:focus,
+.modal-body select:focus {
+  outline: none;
+  border-color: #185FA5;
+  box-shadow: 0 0 0 3px rgba(24, 95, 165, 0.2);
+}
+
+/* ===========================
+   MODAL FOOTER
+=========================== */
+.modal-footer {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* BUTTONS */
+.cancel {
+  background: #ECEBE4;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.save {
+  background: #185FA5;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.save:hover {
+  background: #0C447C;
+}
+
+/* ===========================
+   MESSAGES
+=========================== */
+.error {
+  color: #B91C1C;
+  font-size: 12px;
+}
+
+.success {
+  color: #166534;
+  font-size: 12px;
+}
+
+.info {
+  color: #185FA5;
+  font-size: 12px;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+}

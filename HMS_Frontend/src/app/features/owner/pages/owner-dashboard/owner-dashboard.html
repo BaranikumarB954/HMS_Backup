@@ -1,0 +1,49 @@
+<div class="dashboard">
+
+  <div class="cards">
+
+    <div class="card">
+      <h3>Total Employees</h3>
+      <h2>{{ stats.totalEmployees }}</h2>
+      <p>Active: {{ stats.activeEmployees }}</p>
+      <p>Inactive: {{ stats.inactiveEmployees }}</p>
+    </div>
+
+    <div class="card">
+      <h3>Total Doctors</h3>
+      <h2>{{ stats.totalDoctors }}</h2>
+    </div>
+
+    <div class="card">
+      <h3>Total Patients</h3>
+      <h2>{{ stats.totalPatients }}</h2>
+    </div>
+
+    <div class="card">
+      <h3>Appointments</h3>
+      <h2>{{ stats.totalAppointments }}</h2>
+    </div>
+
+    <div class="card">
+      <h3>Approvals</h3>
+      <h2>{{ stats.totalApprovals }}</h2>
+    </div>
+
+  </div>
+
+  <!-- SECOND ROW -->
+  <div class="cards">
+
+    <div class="card small">
+      <h3>Departments</h3>
+      <h2>{{ stats.totalDepartments }}</h2>
+    </div>
+
+    <div class="card small">
+      <h3>Roles</h3>
+      <h2>{{ stats.totalRoles }}</h2>
+    </div>
+
+  </div>
+
+</div>

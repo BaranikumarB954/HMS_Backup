@@ -1,0 +1,108 @@
+:host {
+  display: block;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.page-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2C2C2A;
+}
+
+.page-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.card {
+  background: #FFFFFF;
+  border: 0.5px solid #D3D1C7;
+  border-radius: 12px;
+  overflow: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table thead {
+  background: #F1EFE8;
+}
+
+.table th {
+  padding: 14px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2C2C2A;
+}
+
+.table td {
+  padding: 14px;
+  font-size: 14px;
+  color: #5F5E5A;
+  border-top: 0.5px solid #D3D1C7;
+}
+
+.table tbody tr:hover {
+  background: #F8F8F5;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* PRIMARY BUTTON */
+.btn-primary {
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: none;
+  background: #185FA5;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #0C447C;
+}
+
+/* 🔥 NEW ACTION BUTTON STYLES (EDIT / VIEW) */
+.action-btn {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* EDIT BUTTON */
+.action-btn.edit {
+  background: #E8F5E9;
+  color: #1B5E20;
+}
+
+.action-btn.edit:hover {
+  background: #D7EDD9;
+}
+
+/* VIEW BUTTON */
+.action-btn.view {
+  background: #E3F2FD;
+  color: #0D47A1;
+}
+
+.action-btn.view:hover {
+  background: #D3E9FB;
+}

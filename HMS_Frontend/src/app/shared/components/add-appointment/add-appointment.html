@@ -1,0 +1,160 @@
+<div class="popup-backdrop" (click)="closePopup()">
+
+  <div class="popup" (click)="$event.stopPropagation()">
+
+    <!-- HEADER -->
+    <div class="popup-header">
+      <h2>Add Appointment</h2>
+      <button class="icon-btn" (click)="closePopup()">×</button>
+    </div>
+
+    <!-- BODY -->
+    <div class="popup-body">
+
+      <!-- APPOINTMENT DETAILS -->
+      <div class="form-section">
+        <h3>Appointment Details</h3>
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label>Patient UHID</label>
+            <input class="enterprise-input"
+              [(ngModel)]="form.patientUHID"
+              (blur)="validatePatient()"
+              placeholder="PAT-260001" />
+            <small class="error-text" *ngIf="errors.patientUHID">
+              {{ errors.patientUHID }}
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label>Department</label>
+            <select class="enterprise-input"
+                    [(ngModel)]="form.deptName"
+                    (change)="onDeptChange()">
+              <option value="">Select</option>
+              <option *ngFor="let d of departments" [value]="d.deptName">
+                {{ d.deptName }}
+              </option>
+            </select>
+            <small class="error-text" *ngIf="errors.deptName">
+              {{ errors.deptName }}
+            </small>
+          </div>
+
+          <div class="form-group full">
+            <label>Doctor Employee ID</label>
+            <input class="enterprise-input"
+                   [(ngModel)]="form.doctorEmployeeId"
+                   (input)="validateDoctor()"
+                   [disabled]="!form.deptName || loadingDoctors"
+                   placeholder="Enter Doctor ID" />
+
+            <small class="error-text" *ngIf="errors.doctorEmployeeId">
+              {{ errors.doctorEmployeeId }}
+            </small>
+
+            <small class="error-text" *ngIf="doctorError">
+              {{ doctorError }}
+            </small>
+
+            <small class="success-text"
+              *ngIf="!doctorError && form.doctorEmployeeId && !loadingDoctors">
+              Doctor: {{ doctorMap.get(form.doctorEmployeeId)?.name }}
+            </small>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SCHEDULE -->
+      <div class="form-section">
+        <h3>Schedule</h3>
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date"
+              class="enterprise-input"
+              [(ngModel)]="form.appointmentDate"
+              (change)="onDateChange()"
+              [min]="minDate"
+              [max]="maxDate" />
+            <small class="error-text" *ngIf="dateError">
+              {{ dateError }}
+            </small>
+            <small class="error-text" *ngIf="errors.appointmentDate">
+              {{ errors.appointmentDate }}
+            </small>
+          </div>
+
+          <!-- <div class="form-group">
+            <label>Start Time</label>
+            <input type="time"
+                   class="enterprise-input"
+                   [(ngModel)]="form.timeslot.start" />
+            <small class="error-text" *ngIf="errors.start">
+              {{ errors.start }}
+            </small>
+          </div>
+
+          
+
+          <div class="form-group">
+            <label>End Time</label>
+            <input type="time"
+                   class="enterprise-input"
+                   [(ngModel)]="form.timeslot.end" />
+            <small class="error-text" *ngIf="errors.end">
+              {{ errors.end }}
+            </small>
+          </div> -->
+
+          <div class="form-group full">
+  <label>Select Time Slot</label>
+
+  <div class="slot-container">
+
+  <button
+    *ngFor="let s of availableSlots"
+    class="slot-btn"
+    [class.booked]="s.isBooked"
+    [class.selected]="form.timeslot?.start === s.start"
+    [disabled]="s.isBooked"
+    (click)="selectSlot(s)">
+
+    {{ s.start }} - {{ s.end }}
+
+  </button>
+
+</div>
+
+  <small class="error-text" *ngIf="availableSlots.length === 0 && selectedDoctor">
+    No slots available
+  </small>
+</div>
+
+        </div>
+
+        <small class="error-text" *ngIf="errors.time">
+          {{ errors.time }}
+        </small>
+
+      </div>
+      <div class="form-section">
+        <h3>Appointment Reason</h3>
+      </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="popup-footer">
+      <button class="secondary-btn" (click)="closePopup()">Cancel</button>
+      <button class="primary-btn" (click)="submit()">Save</button>
+    </div>
+
+  </div>
+
+</div>

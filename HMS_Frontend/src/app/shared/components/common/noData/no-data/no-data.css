@@ -1,0 +1,86 @@
+/* ===========================
+   FONT (GLOBAL MATCH)
+=========================== */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+:host {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ===========================
+   NO DATA WRAPPER
+=========================== */
+.no-data-container {
+  width: 100%;
+  padding: 50px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: #ffffff;
+  border-top: 1px solid #ECEBE4;
+}
+
+/* ===========================
+   ICON WRAPPER
+=========================== */
+.icon {
+  width: 70px;
+  height: 70px;
+
+  border-radius: 12px;
+  border: 1px dashed #D3D1C7;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 14px;
+
+  color: #A1A1A1;
+}
+
+/* Angular Material icon fix */
+.icon mat-icon {
+  font-size: 34px;
+  width: 34px;
+  height: 34px;
+  color: #A1A1A1;
+}
+
+/* ===========================
+   TITLE
+=========================== */
+h3 {
+  margin: 10px 0 6px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2C2C2A;
+}
+
+/* ===========================
+   SUB MESSAGE
+=========================== */
+p {
+  margin: 0;
+  font-size: 13px;
+  color: #5F5E5A;
+  text-align: center;
+  max-width: 420px;
+}
+
+/* ===========================
+   OPTIONAL ANIMATION (SOFT)
+=========================== */
+.no-data-container:hover .icon {
+  border-color: #185FA5;
+  color: #185FA5;
+  transition: 0.2s ease;
+}
+
+.no-data-container:hover mat-icon {
+  color: #185FA5;
+}

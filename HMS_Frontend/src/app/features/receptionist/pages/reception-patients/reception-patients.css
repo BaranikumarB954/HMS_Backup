@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+:host {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* PAGE */
+.page {
+  background: #F1EFE8;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+/* HEADER */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.page-header h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #2C2C2A;
+}
+
+/* PRIMARY BUTTON */
+.primary-btn {
+  height: 44px;
+  padding: 0 16px;
+  background: #185FA5;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.primary-btn:hover {
+  background: #0C447C;
+}
+
+/* CARD */
+.card {
+  background: #fff;
+  border: 0.5px solid #D3D1C7;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #F9F9F7;
+}
+
+th {
+  text-align: left;
+  padding: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border-bottom: 1px solid #D3D1C7;
+}
+
+td {
+  padding: 14px;
+  font-size: 14px;
+  color: #5F5E5A;
+  border-top: 0.5px solid #ECEBE4;
+}
+
+tr:hover {
+  background: #F9F9F7;
+}
+
+/* ===========================
+   STATUS PILL (ACTIVE / INACTIVE)
+=========================== */
+.status-pill {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-block;
+}
+
+.status-pill.active {
+  background: #E6F6EC;
+  color: #166534;
+}
+
+.status-pill.inactive {
+  background: #FDE8E8;
+  color: #B91C1C;
+}
+
+/* ===========================
+   ACTION BUTTONS (TEXT STYLE)
+=========================== */
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* base */
+.action-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  background: #fff;
+}
+
+/* VIEW */
+.action-btn.view {
+  color: #185FA5;
+  border-color: #BFD7F2;
+  background: #EEF6FF;
+}
+
+.action-btn.view:hover {
+  background: #DCEBFF;
+}
+
+/* EDIT */
+.action-btn.edit {
+  color: #B7791F;
+  border-color: #F2D6A2;
+  background: #FFF6E5;
+}
+
+.action-btn.edit:hover {
+  background: #FFE9BF;
+}
+
+/* DEACTIVATE / DANGER */
+.action-btn.danger {
+  color: #B91C1C;
+  border-color: #F5B5B5;
+  background: #FFEAEA;
+}
+
+.action-btn.danger:hover {
+  background: #FFD6D6;
+}
+
+/* ACTIVATE / SUCCESS */
+.action-btn.success {
+  color: #166534;
+  border-color: #A7E3B5;
+  background: #EAF8EF;
+}
+
+.action-btn.success:hover {
+  background: #D7F2DF;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}

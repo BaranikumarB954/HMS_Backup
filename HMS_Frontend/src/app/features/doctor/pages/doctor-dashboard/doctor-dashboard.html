@@ -1,0 +1,39 @@
+<div class="container" *ngIf="data">
+
+  <!-- 🔥 WELCOME CARD -->
+  <div class="welcome-card">
+    <h2>Welcome back, {{ data.doctorInfo.name }}</h2>
+    <p>Logged in as <b>DOCTOR</b></p>
+    <p>{{ data.doctorInfo.department }} | {{ data.doctorInfo.specialization }}</p>
+  </div>
+
+  <!-- 📊 STATS -->
+  <div class="stats">
+    <div class="card">Today: {{ data.stats.todayAppointments }}</div>
+    <div class="card">Completed: {{ data.stats.completed }}</div>
+    <div class="card">Pending: {{ data.stats.pending }}</div>
+    <div class="card">Cancelled: {{ data.stats.cancelled }}</div>
+  </div>
+
+  <!-- 📋 TODAY APPOINTMENTS -->
+  <table>
+    <thead>
+      <tr>
+        <th>UHID</th>
+        <th>Department</th>
+        <th>Time</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let a of data.todayAppointments">
+        <td>{{ a.patientId?.UHID }}</td>
+        <td>{{ a.departmentId?.deptName }}</td>
+        <td>{{ a.timeslot.start }} - {{ a.timeslot.end }}</td>
+        <td>{{ a.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

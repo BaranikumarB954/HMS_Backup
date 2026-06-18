@@ -1,0 +1,83 @@
+<div class="login-page">
+
+  <div class="login-container">
+
+    <!-- LEFT: BRANDING -->
+    <div class="login-branding">
+      <div class="branding-content">
+
+        <div class="brand-badge">
+          HMS Portal
+        </div>
+
+        <h1>Join Our Healthcare Network</h1>
+
+        <p>
+          Register your interest to become a part of our Hospital Management System.
+          Please provide your official email address to proceed with verification.
+        </p>
+
+        <div class="branding-actions">
+          <a class="join-us-button" href="#">Back to Login</a>
+          <p>Secure onboarding for hospital staff</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT: FORM PANEL -->
+    <div class="login-panel">
+
+      <div class="login-card">
+
+        <!-- HEADER -->
+        <div class="login-header">
+          <h2>Join Us</h2>
+          <p>Enter your email to continue</p>
+        </div>
+
+        <!-- FORM -->
+        <div class="login-form-content">
+
+          <div class="form-group">
+            <label>Email Address</label>
+
+            <input
+              [(ngModel)]="email"
+              type="email"
+              class="enterprise-input"
+              placeholder="Enter your email address"
+              (blur)="emailTouched = true"
+            />
+
+            <div class="error-text" *ngIf="emailTouched && emailError">
+              <small>{{ emailError }}</small>
+            </div>
+          </div>
+
+          <!-- BUTTON -->
+          <button (click)="proceed()" class="login-button">
+            Continue
+          </button>
+
+          <!-- MESSAGE -->
+          <div *ngIf="message" class="info-message">
+            {{ message }}
+          </div>
+
+          <!-- RESEND -->
+          <div *ngIf="showResendButton">
+            <button (click)="resendEmail()" class="secondary-button">
+              Resend Verification Email
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,129 @@
+ 
+.page-container {
+  padding: 24px;
+  background: #F1EFE8;
+  min-height: 100vh;
+}
+
+ 
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.page-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2C2C2A;
+  margin: 0;
+}
+
+.page-header p {
+  font-size: 14px;
+  color: #5F5E5A;
+  margin-top: 4px;
+}
+
+ 
+.card {
+  background: #FFFFFF;
+  border: 0.5px solid #D3D1C7;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+ 
+.enterprise-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.enterprise-table thead {
+  background: #F1EFE8;
+}
+
+.enterprise-table th {
+  text-align: left;
+  padding: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #444441;
+}
+
+.enterprise-table td {
+  padding: 14px 12px;
+  font-size: 14px;
+  color: #2C2C2A;
+  border-top: 0.5px solid #E0DED6;
+}
+
+.enterprise-table tbody tr:hover {
+  background: #F8F8F5;
+}
+
+ 
+.actions-cell {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+ 
+.primary-btn {
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: none;
+  background: #185FA5;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primary-btn:hover {
+  background: #0C447C;
+}
+
+.secondary-btn {
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid #D3D1C7;
+  background: #FFFFFF;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.secondary-btn.small {
+  height: 32px;
+  font-size: 12px;
+}
+
+ 
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #D3D1C7;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background: #F8F8F5;
+}
+
+.icon-btn.danger {
+  color: #A32D2D;
+}
+
+ 
+.text-right {
+  text-align: right;
+}

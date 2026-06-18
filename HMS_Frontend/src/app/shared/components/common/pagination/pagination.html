@@ -1,0 +1,28 @@
+<div class="pagination-container">
+
+  <!-- BACK BUTTON -->
+  <button class="secondary-btn" (click)="prev()">
+    Back
+  </button>
+
+  <!-- PAGE INFO -->
+  <div class="page-info">
+    Page {{ page }} / {{ totalPages }}
+  </div>
+
+  <!-- NEXT BUTTON -->
+  <button class="primary-btn" (click)="next()">
+    Next
+  </button>
+
+  <!-- LIMIT INPUT -->
+  <input
+    type="number"
+    [(ngModel)]="limit"
+    (change)="limitChange.emit(limit)"
+    min="5"
+    max="30"
+    class="limit-input"
+  />
+
+</div>

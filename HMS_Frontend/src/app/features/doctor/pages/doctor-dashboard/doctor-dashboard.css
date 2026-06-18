@@ -1,0 +1,125 @@
+/* ===========================
+   FONT IMPORT (GLOBAL STYLE)
+=========================== */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+:host {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ===========================
+   PAGE CONTAINER
+=========================== */
+.container {
+  padding: 24px;
+  background: #F1EFE8;
+  min-height: 100vh;
+}
+
+/* ===========================
+   WELCOME CARD
+=========================== */
+.welcome-card {
+  background: #185FA5;
+  color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.welcome-card h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.welcome-card p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* ===========================
+   STATS SECTION
+=========================== */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* STAT CARD */
+.card {
+  background: #ffffff;
+  border: 0.5px solid #D3D1C7;
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: #2C2C2A;
+}
+
+/* ===========================
+   TABLE
+=========================== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border: 0.5px solid #D3D1C7;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* HEADER */
+thead {
+  background: #F9F9F7;
+}
+
+th {
+  text-align: left;
+  padding: 14px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #2C2C2A;
+  border-bottom: 1px solid #D3D1C7;
+}
+
+/* ROW */
+td {
+  padding: 13px 12px;
+  font-size: 14px;
+  color: #5F5E5A;
+  border-bottom: 1px solid #ECEBE4;
+}
+
+/* HOVER */
+tbody tr:hover {
+  background: #F9F9F7;
+}
+
+/* ===========================
+   STATUS BADGE (OPTIONAL FUTURE READY)
+=========================== */
+.status {
+  font-weight: 600;
+  color: #185FA5;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+@media (max-width: 992px) {
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+}

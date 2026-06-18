@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+:host {
+  width: 100%;
+  max-width: 100vw;
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+}
+
+ 
+.header-container {
+  max-width: 100%;
+  height: 64px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 24px;
+
+  background: #FFFFFF;
+  border-bottom: 0.5px solid #D3D1C7;
+}
+
+ 
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo {
+  font-size: 16px;
+  font-weight: 700;
+  color: #185FA5;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #5F5E5A;
+}
+
+ 
+.profile {
+  position: relative;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+ 
+.profile-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 8px;
+  cursor: pointer;
+
+  color: #2C2C2A;
+}
+
+.profile-btn:hover {
+  background: #F1EFE8;
+}
+
+ 
+.dropdown {
+  position: absolute;
+  top: 48px;
+  right: 0;
+
+  width: 140px;
+
+  background: #FFFFFF;
+  border: 0.5px solid #D3D1C7;
+  border-radius: 8px;
+
+  overflow: hidden;
+  z-index: 1000;
+}
+
+ 
+.dropdown-item {
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #2C2C2A;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #F8F8F5;
+}
+
+ 
+@media (max-width: 768px) {
+  .title {
+    display: none;
+  }
+}

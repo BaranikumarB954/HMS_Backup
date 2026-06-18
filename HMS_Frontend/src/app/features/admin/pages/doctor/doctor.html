@@ -1,0 +1,75 @@
+<div class="page">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1>Doctors</h1>
+  </div>
+
+  <!-- ACTION BAR -->
+  <div class="page-actions">
+    <button class="btn-primary" (click)="openPopup()">
+      + Add Doctor
+    </button>
+  </div>
+
+  <!-- CARD -->
+  <div class="card">
+
+    <table class="table">
+
+      <thead>
+        <tr>
+          <th>Employee ID</th>
+          <th>Med Reg No</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Specialization</th>
+          <th>Time</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let d of doctors">
+
+          <td>{{ d.employeeId }}</td>
+          <td>{{ d.medRegNo }}</td>
+          <td>{{ d.firstName }} {{ d.lastName }}</td>
+          <td>{{ d.email }}</td>
+          <td>{{ d.specialization }}</td>
+          <td>{{ d.avlblStartTime }} - {{ d.avlblEndTime }}</td>
+
+          <td class="actions">
+
+            <button class="action-btn edit" (click)="openEdit(d)">
+              Edit
+            </button>
+
+            <button class="action-btn view" (click)="openView(d)">
+              View
+            </button>
+
+          </td>
+
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+<!-- POPUPS -->
+<app-add-doctor
+  *ngIf="showPopup"
+  [editData]="editData"
+  (close)="closePopup()"
+  (refresh)="onUpdated()">
+</app-add-doctor>
+
+<app-view-doctor
+  *ngIf="viewData"
+  [data]="viewData"
+  (close)="viewData = null">
+</app-view-doctor>

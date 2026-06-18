@@ -1,0 +1,251 @@
+/* ==========================================
+   BACKDROP
+========================================== */
+.popup-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 1000;
+}
+
+/* ==========================================
+   MODAL CONTAINER
+========================================== */
+.popup {
+  width: 820px;
+  max-height: 90vh;
+
+  background: #FFFFFF;
+
+  border: 0.5px solid #D3D1C7;
+  border-radius: 12px;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+.popup-header {
+  padding: 16px 20px;
+
+  border-bottom: 0.5px solid #D3D1C7;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.popup-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2C2C2A;
+  margin: 0;
+}
+
+ 
+.icon-btn {
+  width: 36px;
+  height: 36px;
+
+  border-radius: 8px;
+  border: 0.5px solid #D3D1C7;
+
+  background: #FFFFFF;
+
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.icon-btn:hover {
+  background: #F8F8F5;
+}
+
+/* ==========================================
+   BODY
+========================================== */
+.popup-body {
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  overflow-y: auto;
+}
+
+/* ==========================================
+   FORM SECTION
+========================================== */
+.form-section {
+  border: 0.5px solid #D3D1C7;
+  border-radius: 12px;
+
+  padding: 16px;
+
+  background: #FFFFFF;
+}
+
+.form-section h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2C2C2A;
+
+  margin-bottom: 12px;
+}
+
+/* ==========================================
+   GRID
+========================================== */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* ==========================================
+   FORM GROUP
+========================================== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #444441;
+}
+
+/* ==========================================
+   INPUTS
+========================================== */
+.enterprise-input {
+  width: 100%;
+  height: 44px;
+
+  border: 1px solid #D3D1C7;
+  border-radius: 8px;
+
+  padding: 0 12px;
+
+  font-size: 14px;
+  color: #2C2C2A;
+
+  background: #FFFFFF;
+
+  transition: all 0.2s ease;
+}
+
+.enterprise-input::placeholder {
+  color: #888780;
+}
+
+.enterprise-input:hover {
+  border-color: #B4B2A9;
+}
+
+.enterprise-input:focus {
+  outline: none;
+  border-color: #185FA5;
+  box-shadow: 0 0 0 3px rgba(24, 95, 165, 0.2);
+}
+
+ 
+select.enterprise-input {
+  appearance: none;
+  cursor: pointer;
+}
+
+/* ==========================================
+   ERROR TEXT
+========================================== */
+.error-text {
+  font-size: 12px;
+  color: #A32D2D;
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
+.popup-footer {
+  padding: 16px 20px;
+
+  border-top: 0.5px solid #D3D1C7;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* ==========================================
+   BUTTONS
+========================================== */
+.primary-btn {
+  height: 44px;
+  padding: 0 16px;
+
+  border-radius: 8px;
+  border: none;
+
+  background: #185FA5;
+  color: #FFFFFF;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.primary-btn:hover {
+  background: #0C447C;
+}
+
+.primary-btn:active {
+  transform: translateY(1px);
+}
+
+.secondary-btn {
+  height: 44px;
+  padding: 0 16px;
+
+  border-radius: 8px;
+  border: 1px solid #D3D1C7;
+
+  background: #FFFFFF;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.secondary-btn:hover {
+  background: #F8F8F5;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+@media (max-width: 992px) {
+  .popup {
+    width: 95%;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

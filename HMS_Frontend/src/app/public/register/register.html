@@ -1,0 +1,116 @@
+<form [formGroup]="registerForm" class="hms-form">
+
+  <!-- BASIC INFO -->
+  <div class="form-card">
+    <h3>Basic Information</h3>
+
+    <div class="form-grid">
+
+      <div class="form-group">
+        <label>Email</label>
+        <input class="input" formControlName="email" readonly />
+        <small *ngIf="email?.touched && email?.invalid">Invalid Email</small>
+      </div>
+
+      <div class="form-group">
+        <label>First Name</label>
+        <input class="input" formControlName="firstName" />
+        <small *ngIf="firstName?.touched && firstName?.invalid">Min 3 chars</small>
+      </div>
+
+      <div class="form-group">
+        <label>Last Name</label>
+        <input class="input" formControlName="lastName" />
+        <small *ngIf="lastName?.touched && lastName?.invalid">Min 2 chars</small>
+      </div>
+
+      <div class="form-group">
+        <label>Phone</label>
+        <input class="input" formControlName="phone" />
+        <small *ngIf="phone?.touched && phone?.invalid">Invalid phone</small>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input class="input" type="password" formControlName="password" />
+        <small *ngIf="password?.touched && password?.invalid">Weak password</small>
+      </div>
+
+      <div class="form-group">
+        <label>Gender</label>
+        <select class="input" formControlName="gender">
+          <option value="">Select</option>
+          <option *ngFor="let g of genders" [value]="g">{{ g }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Blood Group</label>
+        <select class="input" formControlName="bloodGroup">
+          <option value="">Select</option>
+          <option *ngFor="let b of bloodGroups" [value]="b">{{ b }}</option>
+        </select>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- EMPLOYMENT -->
+  <div class="form-card">
+    <h3>Employment Information</h3>
+
+    <div class="form-grid">
+
+      <div class="form-group">
+        <label>Role</label>
+        <select class="input" formControlName="roleName" (change)="onRoleChange()">
+          <option value="">Select</option>
+          <option *ngFor="let role of roles" [value]="role.roleName">
+            {{ role.roleName }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Department</label>
+        <select class="input" formControlName="deptName">
+          <option value="">Select</option>
+          <option *ngFor="let dept of filteredDepartments" [value]="dept._id">
+            {{ dept.deptName }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Designation</label>
+        <input class="input" formControlName="designation" />
+      </div>
+
+      <div class="form-group">
+        <label>Joining Date</label>
+        <input class="input" type="date" formControlName="joiningDate" />
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DOCTOR -->
+  <div class="form-card" *ngIf="registerForm.value.roleName === 'DOCTOR'">
+    <h3>Doctor Information</h3>
+
+    <div class="form-grid">
+
+      <input class="input" formControlName="medRegNo" placeholder="Reg No" />
+      <input class="input" formControlName="specialization" placeholder="Specialization" />
+      <input class="input" formControlName="qualification" placeholder="Qualification" />
+      <input class="input" type="number" formControlName="consultationFee" placeholder="Fee" />
+      <input class="input" type="time" formControlName="avlblStartTime" />
+      <input class="input" type="time" formControlName="avlblEndTime" />
+      <input class="input" type="number" formControlName="expYears" placeholder="Experience" />
+
+    </div>
+  </div>
+
+  <button class="primary-btn" type="button" (click)="submit()">Submit</button>
+
+</form>

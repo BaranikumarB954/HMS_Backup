@@ -1,0 +1,81 @@
+<div class="page">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1>Approvals</h1>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+
+    <button 
+      class="tab-btn"
+      [class.active]="tab==='PENDING'" 
+      (click)="changeTab('PENDING')"
+    >
+      Pending
+    </button>
+
+    <button 
+      class="tab-btn"
+      [class.active]="tab==='APPROVED'" 
+      (click)="changeTab('APPROVED')"
+    >
+      Approved
+    </button>
+
+    <button 
+      class="tab-btn"
+      [class.active]="tab==='REJECTED'" 
+      (click)="changeTab('REJECTED')"
+    >
+      Rejected
+    </button>
+
+  </div>
+
+  <!-- TABLE CARD -->
+  <div class="card">
+
+    <table class="table">
+
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Email</th>
+          <th>Date</th>
+          <th *ngIf="tab==='PENDING'">Action</th>
+          <th *ngIf="tab==='REJECTED'">Reason</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of approvals">
+
+          <td>{{ item.firstName }} {{ item.lastName }}</td>
+          <td>{{ item.roleName }}</td>
+          <td>{{ item.email }}</td>
+          <td>{{ item.createdAt | date }}</td>
+
+          <td *ngIf="tab==='PENDING'">
+            <button class="btn-success" (click)="approve(item._id)">
+              Approve
+            </button>
+            <button class="btn-danger" (click)="reject(item._id)">
+              Reject
+            </button>
+          </td>
+
+          <td *ngIf="tab==='REJECTED'">
+            {{ item.message }}
+          </td>
+
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

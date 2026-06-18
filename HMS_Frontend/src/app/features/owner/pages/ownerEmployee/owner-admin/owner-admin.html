@@ -1,0 +1,68 @@
+<div class="page-container">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <h1>Admins</h1>
+      <p>Manage hospital administrators</p>
+    </div>
+
+    <button class="primary-btn" (click)="openAdd()">
+      + Add Admin
+    </button>
+  </div>
+
+  <!-- TABLE CARD -->
+  <div class="card">
+
+    <table class="enterprise-table">
+
+      <thead>
+        <tr>
+          <th>Admin ID</th>
+          <th>Name</th>
+          <th>Department</th>
+          <th>Email</th>
+          <th class="text-right">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let a of admins">
+
+          <td>{{ a.employeeId }}</td>
+          <td>{{ a.firstName }} {{ a.lastName }}</td>
+          <td>{{ a.department }}</td>
+          <td>{{ a.email }}</td>
+
+          <td class="actions-cell">
+
+            <button class="icon-btn" (click)="openEdit(a)">
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button class="icon-btn danger" (click)="deleteAdmin(a.userId)">
+              <mat-icon>delete</mat-icon>
+            </button>
+
+            <button class="secondary-btn small" (click)="toggle(a.userId)">
+              {{ a.status === 'ACTIVE' ? 'Deactivate' : 'Activate' }}
+            </button>
+
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+<!-- POPUP -->
+<app-add-admin
+  *ngIf="showAddPopup || showEditPopup"
+  [editData]="showEditPopup ? selectedAdmin : null"
+  (close)="closePopup()"
+  (refresh)="refresh()">
+</app-add-admin>

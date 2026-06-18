@@ -1,0 +1,55 @@
+<div class="container">
+
+  <div class="header">
+    <h2>Appointments</h2>
+    <button (click)="openPopup()">+ Add Appointment</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Patient</th>
+        <th>Department</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody *ngIf="appointments.length > 0; else noData">
+  <tr *ngFor="let a of appointments">
+    <td>{{ a.appointmentId }}</td>
+    <td>{{ a.patientId?.UHID || 'N/A' }}</td>
+    <td>{{ a.departmentId?.deptName }}</td>
+    <td>{{ a.appointmentDate | date }}</td>
+    <td>{{ a.timeslot.start }} - {{ a.timeslot.end }}</td>
+
+    <td>
+      <button class="delete" (click)="delete(a._id)">Delete</button>
+    </td>
+  </tr>
+</tbody>
+
+<ng-template #noData>
+  <tbody>
+    <tr>
+      <td colspan="6">
+        <app-no-data
+          message="No Appointments Found"
+          subMessage="Add a new Appointment to get started">
+        </app-no-data>
+      </td>
+    </tr>
+  </tbody>
+</ng-template>
+  </table>
+
+</div>
+
+<!-- 🔥 REUSABLE POPUP -->
+<app-add-appointment 
+  *ngIf="showPopup"
+  (close)="closePopup()"
+  (refresh)="onAppointmentAdded()">
+</app-add-appointment>

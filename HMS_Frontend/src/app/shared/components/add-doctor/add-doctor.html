@@ -1,0 +1,165 @@
+<div class="popup-backdrop" (click)="closePopup()">
+
+  <div class="popup" (click)="$event.stopPropagation()">
+
+    <!-- HEADER -->
+    <div class="popup-header">
+      <h2>{{ isEditMode ? 'Edit Doctor' : 'Add Doctor' }}</h2>
+      <button class="icon-btn" (click)="closePopup()">×</button>
+    </div>
+
+    <!-- BODY -->
+    <div class="popup-body" [formGroup]="doctorForm">
+
+      <!-- BASIC INFO -->
+      <div class="form-section">
+        <h3>Basic Information</h3>
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label>First Name</label>
+            <input class="enterprise-input" formControlName="firstName">
+            <small class="error-text" *ngIf="f['firstName'].touched && f['firstName'].invalid">
+              First name required (min 3 chars)
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label>Last Name</label>
+            <input class="enterprise-input" formControlName="lastName">
+            <small class="error-text" *ngIf="f['lastName'].touched && f['lastName'].invalid">
+              Last name required (min 2 chars)
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input class="enterprise-input" formControlName="email">
+            <small class="error-text" *ngIf="f['email'].touched && f['email'].invalid">
+              Valid Gmail required
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" class="enterprise-input" maxlength="10"  formControlName="phone">
+            <small class="error-text" *ngIf="f['phone'].touched && f['phone'].invalid">
+              Valid phone required
+            </small>
+          </div>
+
+          <div class="form-group" *ngIf="!isEditMode">
+            <label>Password</label>
+            <input type="password" class="enterprise-input" formControlName="password">
+            <small class="error-text" *ngIf="!isEditMode && f['password'].touched && f['password'].invalid">
+              Password required (min 6 chars)
+            </small>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- EMPLOYMENT -->
+      <div class="form-section">
+        <h3>Employment Information</h3>
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label>Designation</label>
+            <input class="enterprise-input" formControlName="designation">
+            <small class="error-text" *ngIf="f['designation'].touched && f['designation'].invalid">
+              Designation is required
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label>Joining Date</label>
+            <input type="date" class="enterprise-input" formControlName="joiningDate">
+            <small class="error-text" *ngIf="f['joiningDate'].touched && f['joiningDate'].invalid">
+              Joining date is required
+            </small>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- DOCTOR INFO -->
+      <div class="form-section">
+        <h3>Doctor Information</h3>
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label>Medical Registration No</label>
+            <input class="enterprise-input" formControlName="medRegNo">
+            <small class="error-text" *ngIf="f['medRegNo'].touched && f['medRegNo'].invalid">
+              Only letters, numbers, "-" allowed (max 16 chars)
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label>Specialization</label>
+            <input class="enterprise-input" formControlName="specialization">
+            <small class="error-text" *ngIf="f['specialization'].touched && f['specialization'].invalid">
+              Only letters allowed
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label>Qualification</label>
+            <input class="enterprise-input" formControlName="qualification">
+            <small class="error-text" *ngIf="f['qualification'].touched && f['qualification'].invalid">
+              Qualification is required
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label>Consultation Fee</label>
+            <input type="number" class="enterprise-input" formControlName="consultationFee">
+            <small class="error-text" *ngIf="f['consultationFee'].touched && f['consultationFee'].invalid">
+              Fee must be ≥ 300 and valid number
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label>Available Start Time</label>
+            <input type="time" class="enterprise-input" formControlName="avlblStartTime">
+            <small class="error-text" *ngIf="f['avlblStartTime'].touched && f['avlblStartTime'].invalid">
+              Start time is required
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label>Available End Time</label>
+            <input type="time" class="enterprise-input" formControlName="avlblEndTime">
+            <small class="error-text" *ngIf="f['avlblEndTime'].touched && f['avlblEndTime'].invalid">
+              End time is required
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label>Experience (Years)</label>
+            <input type="number" class="enterprise-input" formControlName="expYears">
+            <small class="error-text" *ngIf="f['expYears'].touched && f['expYears'].invalid">
+              Experience must be between 0 and 50
+            </small>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="popup-footer">
+      <button class="secondary-btn" (click)="closePopup()">Cancel</button>
+      <button class="primary-btn" (click)="submit()">
+        {{ isEditMode ? 'Update Doctor' : 'Add Doctor' }}
+      </button>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,121 @@
+<div class="popup-backdrop" (click)="closePopup()">
+
+  <div class="popup" (click)="$event.stopPropagation()">
+
+    <!-- HEADER -->
+    <div class="popup-header">
+      <h2>{{ editData ? 'Edit Admin' : 'Add Admin' }}</h2>
+      <button class="icon-btn" (click)="closePopup()">×</button>
+    </div>
+
+    <!-- BODY -->
+    <div class="popup-body">
+
+      <div class="form-section">
+        <h3>Basic Information</h3>
+
+        <div class="form-grid">
+
+          <!-- FIRST NAME -->
+          <div class="form-group">
+            <label>First Name</label>
+            <input class="enterprise-input" [(ngModel)]="form.firstName">
+            <small class="error-text" *ngIf="errors.firstName">
+              {{ errors.firstName }}
+            </small>
+          </div>
+
+          <!-- LAST NAME -->
+          <div class="form-group">
+            <label>Last Name</label>
+            <input class="enterprise-input" [(ngModel)]="form.lastName">
+            <small class="error-text" *ngIf="errors.lastName">
+              {{ errors.lastName }}
+            </small>
+          </div>
+
+          <!-- EMAIL -->
+          <div class="form-group">
+            <label>Email</label>
+            <input 
+              class="enterprise-input"
+              [(ngModel)]="form.email"
+              [disabled]="editData">
+            <small class="error-text" *ngIf="errors.email">
+              {{ errors.email }}
+            </small>
+          </div>
+
+          <!-- PHONE -->
+          <div class="form-group">
+            <label>Phone</label>
+            <input class="enterprise-input" [(ngModel)]="form.phone">
+            <small class="error-text" *ngIf="errors.phone">
+              {{ errors.phone }}
+            </small>
+          </div>
+
+          <!-- PASSWORD -->
+          <div class="form-group" *ngIf="!editData">
+            <label>Password</label>
+            <input 
+              type="password"
+              class="enterprise-input"
+              [(ngModel)]="form.password">
+            <small class="error-text" *ngIf="errors.password">
+              {{ errors.password }}
+            </small>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- EMPLOYMENT -->
+      <div class="form-section">
+        <h3>Employment Information</h3>
+
+        <div class="form-grid">
+
+          <!-- DEPARTMENT -->
+          <div class="form-group">
+            <label>Department</label>
+            <input class="enterprise-input" [(ngModel)]="form.deptName">
+            <small class="error-text" *ngIf="errors.deptName">
+              {{ errors.deptName }}
+            </small>
+          </div>
+
+          <!-- DESIGNATION -->
+          <div class="form-group">
+            <label>Designation</label>
+            <input class="enterprise-input" [(ngModel)]="form.designation">
+            <small class="error-text" *ngIf="errors.designation">
+              {{ errors.designation }}
+            </small>
+          </div>
+
+          <!-- JOIN DATE -->
+          <div class="form-group">
+            <label>Joining Date</label>
+            <input type="date" class="enterprise-input" [(ngModel)]="form.joiningDate">
+            <small class="error-text" *ngIf="errors.joiningDate">
+              {{ errors.joiningDate }}
+            </small>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="popup-footer">
+      <button class="secondary-btn" (click)="closePopup()">Cancel</button>
+      <button class="primary-btn" (click)="submit()">
+        {{ editData ? 'Update Admin' : 'Create Admin' }}
+      </button>
+    </div>
+
+  </div>
+
+</div>

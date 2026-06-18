@@ -1,0 +1,71 @@
+<div class="page-container">
+
+  <!-- 🔹 HEADER -->
+  <div class="page-header">
+    <h1>Patients</h1>
+
+    <button class="primary-btn" (click)="openModal()">
+      + Add Patient
+    </button>
+  </div>
+
+  <!-- 🔹 CARD -->
+  <div class="card">
+
+    <table class="enterprise-table">
+      <thead>
+        <tr>
+          <th>UHID</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Gender</th>
+          <th>Blood Group</th>
+          <th>Location</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let p of patients">
+          <td>{{ p.UHID }}</td>
+          <td>{{ p.fullName }}</td>
+          <td>{{ p.email }}</td>
+          <td>{{ p.phone }}</td>
+          <td>{{ p.gender }}</td>
+          <td>{{ p.bloodGroup }}</td>
+          <td>{{ p.city }}, {{ p.state }}</td>
+
+          <td>
+            <span 
+              class="status-pill"
+              [ngClass]="p.isProfileCompleted ? 'success' : 'warning'"
+            >
+              {{ p.isProfileCompleted ? 'Completed' : 'Incomplete' }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</div>
+
+<!-- 🔥 MODAL -->
+<div class="modal-backdrop" *ngIf="showAddModal">
+
+  <div class="modal">
+
+    <div class="modal-header">
+      <h3>Add Patient</h3>
+      <span class="close" (click)="closeModal()">✕</span>
+    </div>
+
+    <div class="modal-body">
+      <app-add-patient (patientAdded)="onPatientAdded()"></app-add-patient>
+    </div>
+
+  </div>
+
+</div>

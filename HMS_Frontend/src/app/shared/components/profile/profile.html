@@ -1,0 +1,107 @@
+<div class="page">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1>My Profile</h1>
+  </div>
+
+  <!-- LOADING -->
+  <div *ngIf="loading" class="loading">
+    Loading...
+  </div>
+
+  <!-- CONTENT -->
+  <div *ngIf="user" class="content">
+
+    <!-- BASIC INFO -->
+    <div class="card">
+
+      <h3>Basic Information</h3>
+
+      <div class="info-grid">
+
+        <div class="info-item">
+          <span class="label">Full Name</span>
+          <span class="value">{{ user.firstName }} {{ user.lastName }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Email</span>
+          <span class="value">{{ user.email }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Phone</span>
+          <span class="value">{{ user.phone }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Role</span>
+          <span class="value">{{ user.roleName }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Designation</span>
+          <span class="value">{{ user.designation }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Department</span>
+          <span class="value">{{ user.department }}</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ADMIN -->
+    <div class="card" *ngIf="isAdmin()">
+      <h3>Admin Access</h3>
+      <p class="meta">Full system control access</p>
+    </div>
+
+    <!-- OWNER -->
+    <div class="card" *ngIf="isOwner()">
+      <h3>Owner Access</h3>
+      <p class="meta">Hospital management overview</p>
+    </div>
+
+    <!-- DOCTOR -->
+    <div class="card" *ngIf="isDoctor()">
+
+      <h3>Doctor Details</h3>
+
+      <div class="info-grid">
+
+        <div class="info-item">
+          <span class="label">Registration No</span>
+          <span class="value">{{ user.medRegNo }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Specialization</span>
+          <span class="value">{{ user.specialization }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Qualification</span>
+          <span class="value">{{ user.qualification }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Experience</span>
+          <span class="value">{{ user.expYears }} years</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Consultation Fee</span>
+          <span class="value">₹{{ user.consultationFee }}</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

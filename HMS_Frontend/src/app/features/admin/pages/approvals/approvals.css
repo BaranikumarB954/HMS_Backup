@@ -1,0 +1,118 @@
+:host {
+  display: block;
+}
+
+ 
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+ 
+.page-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2C2C2A;
+}
+
+ 
+.tabs {
+  display: flex;
+  gap: 10px;
+}
+
+ 
+.tab-btn {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid #D3D1C7;
+  background: #FFFFFF;
+  color: #2C2C2A;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+ 
+.tab-btn.active {
+  background: #E6F1FB;
+  color: #185FA5;
+  border-color: #185FA5;
+}
+
+ 
+.card {
+  background: #FFFFFF;
+  border: 0.5px solid #D3D1C7;
+  border-radius: 12px;
+  overflow: auto;
+}
+
+ 
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+ 
+.table thead {
+  background: #F1EFE8;
+}
+
+.table th {
+  padding: 14px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2C2C2A;
+}
+
+ 
+.table td {
+  padding: 14px;
+  font-size: 14px;
+  color: #5F5E5A;
+  border-top: 0.5px solid #D3D1C7;
+}
+
+ 
+.table tbody tr:hover {
+  background: #F8F8F5;
+}
+
+ 
+.btn-success {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 6px;
+  border: none;
+  background: #EAF3DE;
+  color: #27500A;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-right: 6px;
+}
+
+.btn-success:hover {
+  background: #dfecc8;
+}
+
+ 
+.btn-danger {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 6px;
+  border: none;
+  background: #FCEBEB;
+  color: #A32D2D;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background: #f8d7d7;
+}

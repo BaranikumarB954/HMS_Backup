@@ -1,0 +1,77 @@
+<div class="page" *ngIf="dashboardData">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1>Reception Dashboard</h1>
+  </div>
+
+  <!-- STATS ROW 1 -->
+  <div class="grid-2">
+
+    <!-- PATIENTS -->
+    <div class="card">
+
+      <h3>Patients</h3>
+
+      <div class="big-value">
+        {{ dashboardData.patients.total }}
+      </div>
+
+      <div class="sub-stats">
+        <span>Active: {{ dashboardData.patients.active }}</span>
+        <span>Inactive: {{ dashboardData.patients.inactive }}</span>
+      </div>
+
+    </div>
+
+    <!-- APPOINTMENTS -->
+    <div class="card">
+
+      <h3>Appointments</h3>
+
+      <div class="big-value">
+        {{ dashboardData.appointments.total }}
+      </div>
+
+      <div class="sub-stats">
+        <span>Pending: {{ dashboardData.appointments.pending }}</span>
+        <span>Completed: {{ dashboardData.appointments.completed }}</span>
+        <span>Rejected: {{ dashboardData.appointments.rejected }}</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- REVENUE -->
+  <div class="card revenue">
+
+    <h3>Total Revenue</h3>
+
+    <div class="big-value">
+      ₹ {{ dashboardData.revenue }}
+    </div>
+
+  </div>
+
+  <!-- DOCTORS -->
+  <div class="grid-2">
+
+    <div class="card">
+
+      <h3>Doctors</h3>
+
+      <div class="big-value">
+        {{ dashboardData.doctors.total }}
+      </div>
+
+      <div class="sub-stats">
+        <span>Active: {{ dashboardData.doctors.active }}</span>
+        <span>Inactive: {{ dashboardData.doctors.inactive }}</span>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

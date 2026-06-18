@@ -1,0 +1,35 @@
+<ul class="menu">
+
+  <li *ngFor="let menu of menus">
+
+    <!-- 🔹 Parent -->
+    <div 
+      class="parent-link"
+      [class.active]="expandedMenu === menu._id"
+      (click)="menu.children?.length ? toggle(menu._id) : null"
+      [routerLink]="!menu.children?.length ? getRoutePath(menu.path) : null"
+    >
+      {{ menu.name }}
+    </div>
+
+    <!-- 🔹 Children -->
+    <ul 
+      *ngIf="expandedMenu === menu._id && menu.children?.length" 
+      class="child-menu"
+    >
+      <li *ngFor="let child of menu.children">
+
+        <a 
+          [routerLink]="getRoutePath(child.path)" 
+          routerLinkActive="active-child"
+          class="child-link"
+        >
+          {{ child.name }}
+        </a>
+
+      </li>
+    </ul>
+
+  </li>
+
+</ul>

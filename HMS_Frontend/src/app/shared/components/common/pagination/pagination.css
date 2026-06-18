@@ -1,0 +1,68 @@
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* PAGE TEXT */
+.page-info {
+  font-size: 14px;
+  color: #5F5E5A;
+  font-weight: 500;
+}
+
+/* PRIMARY BUTTON (Next) */
+.primary-btn {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: none;
+  background: #185FA5;
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.primary-btn:hover {
+  background: #0C447C;
+}
+
+/* SECONDARY BUTTON (Back) */
+.secondary-btn {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid #D3D1C7;
+  background: #F8F8F5;
+  color: #2C2C2A;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.secondary-btn:hover {
+  background: #ECEBE5;
+}
+
+/* LIMIT INPUT */
+.limit-input {
+  width: 60px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #D3D1C7;
+  text-align: center;
+  font-size: 13px;
+  color: #2C2C2A;
+  outline: none;
+  transition: 0.2s;
+}
+
+.limit-input:focus {
+  border-color: #185FA5;
+  box-shadow: 0 0 0 2px rgba(24, 95, 165, 0.1);
+}

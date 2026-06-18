@@ -1,0 +1,158 @@
+<div class="page">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1>Appointments</h1>
+  </div>
+
+  <!-- ACTION BAR -->
+  <div class="page-actions">
+    <button class="btn-primary" (click)="openPopup()">
+      + Add Appointment
+    </button>
+  </div>
+
+  <!-- STATUS TABS -->
+  <div class="status-tabs">
+
+    <button 
+      class="tab-btn"
+      [class.active]="statusFilter === 'ALL'"
+      (click)="setStatus('ALL')">
+      All
+    </button>
+
+    <button 
+      class="tab-btn"
+      [class.active]="statusFilter === 'BOOKED'"
+      (click)="setStatus('BOOKED')">
+      Booked
+    </button>
+
+    <button 
+      class="tab-btn"
+      [class.active]="statusFilter === 'COMPLETED'"
+      (click)="setStatus('COMPLETED')">
+      Completed
+    </button>
+
+    <button 
+      class="tab-btn"
+      [class.active]="statusFilter === 'CANCELLED'"
+      (click)="setStatus('CANCELLED')">
+      Cancelled
+    </button>
+
+  </div>
+
+  <!-- TABLE CARD -->
+  <div class="card">
+
+    <table class="table">
+
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Patient</th>
+          <th>Department</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody *ngIf="appointments.length > 0; else noData">
+
+        <tr *ngFor="let a of appointments">
+
+          <td>{{ a.appointmentId }}</td>
+
+          <td>{{ a.patientId?.UHID || 'N/A' }}</td>
+
+          <td>{{ a.departmentId?.deptName }}</td>
+
+          <td>{{ a.appointmentDate | date }}</td>
+
+          <td>{{ a.timeslot.start }} - {{ a.timeslot.end }}</td>
+
+          <!-- STATUS -->
+          <td>
+            <span
+              class="status-badge"
+              [ngClass]="{
+                'status-booked': a.status === 'BOOKED',
+                'status-completed': a.status === 'COMPLETED',
+                'status-cancelled': a.status === 'CANCELLED'
+              }">
+              {{ a.status }}
+            </span>
+          </td>
+
+          <!-- ACTIONS -->
+          <td class="action-buttons">
+
+            <!-- COMPLETE -->
+            <button
+              class="btn-action success"
+              *ngIf="a.status === 'BOOKED'"
+              (click)="changeStatus(a._id, 'COMPLETED')">
+              ✓
+            </button>
+
+            <!-- CANCEL -->
+            <button
+              class="btn-action warning"
+              *ngIf="a.status === 'BOOKED'"
+              (click)="changeStatus(a._id, 'CANCELLED')">
+              ✕
+            </button>
+
+            <!-- DELETE -->
+            <button
+              class="btn-action danger"
+              (click)="delete(a._id)">
+              Delete
+            </button>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+      <!-- NO DATA -->
+      <ng-template #noData>
+        <tbody>
+          <tr>
+            <td colspan="7">
+              <app-no-data
+                message="No Appointments Found"
+                subMessage="Add a new Appointment to get started">
+              </app-no-data>
+            </td>
+          </tr>
+        </tbody>
+      </ng-template>
+
+    </table>
+
+  </div>
+
+</div>
+
+<!-- PAGINATION -->
+<app-pagination
+  [page]="page"
+  [totalPages]="totalPages"
+  [limit]="limit"
+  (pageChange)="onPageChange($event)"
+  (limitChange)="onLimitChange($event)">
+</app-pagination>
+
+<!-- ADD APPOINTMENT -->
+<app-add-appointment 
+  *ngIf="showPopup"
+  (close)="closePopup()"
+  (refresh)="onAppointmentAdded()">
+</app-add-appointment>

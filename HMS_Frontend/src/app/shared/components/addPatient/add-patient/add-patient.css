@@ -1,0 +1,157 @@
+ 
+.popup-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+ 
+.popup {
+  width: 820px;
+  max-height: 90vh;
+  background: #FFFFFF;
+
+  border: 0.5px solid #D3D1C7;
+  border-radius: 12px;
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+ 
+.popup-header {
+  padding: 16px 20px;
+  border-bottom: 0.5px solid #D3D1C7;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popup-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2C2C2A;
+  margin: 0;
+}
+
+ 
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 0.5px solid #D3D1C7;
+  background: #FFFFFF;
+  cursor: pointer;
+}
+
+ 
+.popup-body {
+  padding: 20px;
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+ 
+.form-section {
+  border: 0.5px solid #D3D1C7;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.form-section h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+ 
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+ 
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+ 
+.enterprise-input {
+  height: 44px;
+  border: 1px solid #D3D1C7;
+  border-radius: 8px;
+  padding: 0 12px;
+}
+
+.enterprise-input:focus {
+  outline: none;
+  border-color: #185FA5;
+  box-shadow: 0 0 0 3px rgba(24,95,165,.2);
+}
+
+ 
+.error-text {
+  font-size: 12px;
+  color: #A32D2D;
+}
+
+ 
+.popup-footer {
+  padding: 16px 20px;
+  border-top: 0.5px solid #D3D1C7;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+ 
+.primary-btn {
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: none;
+  background: #185FA5;
+  color: white;
+  font-weight: 600;
+}
+
+.primary-btn:hover {
+  background: #0C447C;
+}
+
+.secondary-btn {
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid #D3D1C7;
+  background: #FFFFFF;
+}
+
+ 
+@media (max-width: 768px) {
+  .popup {
+    width: 95%;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
