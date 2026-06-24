@@ -1,6 +1,6 @@
 import { Redirect } from "expo-router";
 import { useEffect, useState } from "react";
-import { storage } from "@/utils/storage";
+import { storage } from "@/src/utils/storage";
 export default function Index() {
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);

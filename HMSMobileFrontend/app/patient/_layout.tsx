@@ -4,14 +4,15 @@ import { View, Text } from "react-native";
 import { useAuth } from "../../src/hooks/useAuth";
 
 export default function PatientLayout() {
-  const { token, loading } = useAuth();
+
+  const { isAuthenticated, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !token) {
+    if (!loading && !isAuthenticated) {
       router.replace("/auth/login");
     }
-  }, [token, loading]);
+  }, [isAuthenticated, loading]);
 
   if (loading) {
     return <Text>Loading...</Text>;

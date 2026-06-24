@@ -1,44 +1,51 @@
-import { View, Text, StyleSheet, ImageBackground } from "react-native";
+import { View, Text, ImageBackground } from "react-native";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import { storage } from "../../utils/storage";
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
 import { login } from "../../services/auth.service";
+import { styles } from "../../styles/loginScreen.styles";
 
 export default function LoginScreen() {
-  const router = useRouter(); // ✅ correct
+  const router = useRouter();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-const handleLogin = async () => {
-  try {
-    const res = await login({ email, password });
+  const handleLogin = async () => {
+    try {
+      const res = await login({ email, password });
 
-    const apiRes = res.data;
+      const apiRes = res.data;
 
-    if (!apiRes.success) {
-      alert(apiRes.message);
-      return;
+      if (!apiRes.success) {
+        alert(apiRes.message);
+        return;
+      }
+
+      const { accessToken, refreshToken, roleName, user } = apiRes.data;
+
+      if (roleName !== "PATIENT") {
+        alert("Access denied: Not a patient");
+        return;
+      }
+
+      // ✅ STORE TOKENS
+      await storage.setToken(accessToken);          // 🔥 FIXED
+      await storage.setRefreshToken(refreshToken);
+
+      // ✅ STORE USER (optional but recommended)
+      if (user) {
+        await storage.setUser(user);
+      }
+
+      router.replace("/patient/dashboard");
+
+    } catch (err: any) {
+      alert(err.message || "Login failed");
     }
-
-    const { token, roleName } = apiRes.data;
-
-    if (roleName !== "PATIENT") {
-      alert("Access denied: Not a patient");
-      return;
-    }
-
-    await storage.setToken(token);
-    await storage.setUser(apiRes.data);
-
-    router.replace("/patient/dashboard");
-
-  } catch (err: any) {
-    alert(err.message || "Login failed");
-  }
-};
+  };
 
   return (
     <ImageBackground
@@ -48,7 +55,12 @@ const handleLogin = async () => {
       <View style={styles.container}>
         <Text style={styles.title}>Welcome Back</Text>
 
-        <Input placeholder="Email" value={email} onChangeText={setEmail} />
+        <Input
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+        />
+
         <Input
           placeholder="Password"
           secureTextEntry
@@ -56,7 +68,6 @@ const handleLogin = async () => {
           onChangeText={setPassword}
         />
 
-        {/* ✅ FIXED */}
         <Text
           style={styles.link}
           onPress={() => router.push("/auth/forgot-password")}
@@ -66,7 +77,6 @@ const handleLogin = async () => {
 
         <Button title="Login" onPress={handleLogin} />
 
-        {/* ✅ FIXED */}
         <Text
           style={styles.link}
           onPress={() => router.push("/auth/register")}
@@ -77,15 +87,3 @@ const handleLogin = async () => {
     </ImageBackground>
   );
 }
-
-const styles = StyleSheet.create({
-  bg: { flex: 1, justifyContent: "center" },
-  container: {
-    margin: 20,
-    backgroundColor: "#ffffffcc",
-    padding: 20,
-    borderRadius: 15,
-  },
-  title: { fontSize: 24, fontWeight: "bold", marginBottom: 15 },
-  link: { color: "#007bff", marginTop: 10 },
-});

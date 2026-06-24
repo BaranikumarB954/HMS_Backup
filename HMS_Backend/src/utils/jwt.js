@@ -1,25 +1,35 @@
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 const ApiError = require('../utils/ApiError');
+
 const tokenType = {
-    ACCESS : "ACCESS",
-    VERIFY_EMAIL : "VERIFY_EMAIL",
-}
+    ACCESS: "ACCESS",
+    VERIFY_EMAIL: "VERIFY_EMAIL",
+    REFRESH: "REFRESH", // ✅ NEW
+};
+
 const tokenConfig = {
-    ACCESS : {
-        secret : process.env.JWT_ACCESS_SECRET,
-        expiresIn : "30m",
+    ACCESS: {
+        secret: process.env.JWT_ACCESS_SECRET,
+        expiresIn: "30m",
     },
-    VERIFY_EMAIL : {
-        secret : process.env.JWT_VERIFY_SECRET,
-        expiresIn : "1h",
+    VERIFY_EMAIL: {
+        secret: process.env.JWT_VERIFY_SECRET,
+        expiresIn: "1h",
+    },
+    REFRESH: {
+        secret: process.env.JWT_REFRESH_SECRET,
+        expiresIn: "7d",
     },
 };
 
-const generateToken = ( {payload, type })=>{
+// 🔥 GENERATE TOKEN
+const generateToken = ({ payload, type }) => {
     const config = tokenConfig[type];
-    if(!config){
-        throw new ApiError(500,"Invalid token type");
+
+    if (!config) {
+        throw new ApiError(500, "Invalid token type");
     }
+
     return jwt.sign(
         {
             ...payload,
@@ -27,25 +37,32 @@ const generateToken = ( {payload, type })=>{
         },
         config.secret,
         {
-            expiresIn:config.expiresIn
+            expiresIn: config.expiresIn,
         }
     );
 };
 
-const verifyToken = ({token,type})=>{
+// 🔥 VERIFY TOKEN
+const verifyToken = ({ token, type }) => {
     const config = tokenConfig[type];
-    if(!config){
-        throw new ApiError(500,"Invalid token type");
+
+    if (!config) {
+        throw new ApiError(500, "Invalid token type");
     }
-    const payload = jwt.verify(
-        token,
-        config.secret
-    );
-    if(payload.type != type){
-        throw new ApiError(500,'Invalid token type');
+
+    try {
+        const payload = jwt.verify(token, config.secret);
+
+        if (payload.type !== type) {
+            throw new ApiError(401, "Invalid token type");
+        }
+
+        return payload;
+    } catch (err) {
+        throw new ApiError(401, "Token expired or invalid");
     }
-    return payload;
-}
+};
+
 module.exports = {
     generateToken,
     tokenType,

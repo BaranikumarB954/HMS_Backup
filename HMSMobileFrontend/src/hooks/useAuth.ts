@@ -3,11 +3,11 @@ import { storage } from "../utils/storage";
 
 export const useAuth = () => {
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const checkAuth = async () => {
-    const storedToken = await storage.getToken();
-    setToken(storedToken);
+    const token = await storage.getToken(); // ✅ YOUR METHOD
+    setIsAuthenticated(!!token);
     setLoading(false);
   };
 
@@ -15,5 +15,5 @@ export const useAuth = () => {
     checkAuth();
   }, []);
 
-  return { token, loading };
+  return { isAuthenticated, loading };
 };

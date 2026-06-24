@@ -3,6 +3,7 @@ const asyncHandler = require('express-async-handler');
 const doctorService = require('../services/doctor.services');
 const Employee = require('../models/Employee');
 const Departments = require('../models/Departments');
+const Appointments = require('../models/Appointments');
 
 exports.getDoctorsByDept = asyncHandler(async (req, res) => {
 
@@ -94,3 +95,13 @@ exports.getDoctorFullInfo = asyncHandler(async (req, res) => {
 
     return res.status(200).json(new ApiResponse(200, data));
 });
+
+exports.getDoctorsApmntDept = asyncHandler(async(req,res)=>{
+    const data = await doctorService.getDoctorsApmntDept();
+    return res.status(200).send(new ApiResponse(200,data));
+})
+
+exports.getTopDoctorsByDept = asyncHandler(async(req,res)=>{
+    const result = await doctorService.getTopDoctorsByDept();
+    return res.status(200).send(new ApiResponse(200,result));
+})

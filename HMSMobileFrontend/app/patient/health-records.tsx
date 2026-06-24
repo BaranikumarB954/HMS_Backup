@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import BottomNav from "@/components/common/BottomNav";
+import BottomNav from "@/src/components/common/BottomNav";
 export default function Records() {
   return (
     <View style={{ flex: 1 }}>

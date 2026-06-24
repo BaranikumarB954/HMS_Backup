@@ -1,2 +1,2 @@
-import Dashboard from "@/screens/patient/DashboardScreen";
+import Dashboard from "../../src/screens/patient/DashboardScreen";
 export default Dashboard;

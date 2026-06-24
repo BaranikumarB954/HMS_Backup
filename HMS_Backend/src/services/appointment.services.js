@@ -295,4 +295,43 @@ const updateAppointmentStatus = async (id, status) => {
   return await appointment.save();
 };
 
-module.exports = { createAppointment , getAppointments, getAppointmentById, updateAppointment, softDelete,getAvailableSlots,updateAppointmentStatus };
+const getMyAppointments = async (userId) => {
+
+  // ✅ 1. GET PATIENT FROM USER
+  const patient = await Patient.findOne({ userId });
+
+  if (!patient) {
+    throw new ApiError(404, "Patient not found");
+  }
+
+  // ✅ 2. GET APPOINTMENTS
+  const appointments = await Appointment.find({
+    patientId: patient._id,
+    isDeleted: false
+  })
+
+    // 🔥 DOCTOR FULL INFO
+    .populate({
+      path: 'doctorId',
+      populate: {
+        path: 'employeeId',
+        populate: {
+          path: 'userId',
+          select: 'firstName lastName'
+        }
+      }
+    })
+
+    // 🔥 DEPARTMENT
+    .populate('departmentId', 'deptName')
+
+    // 🔥 SORT LATEST FIRST
+    .sort({ appointmentDate: -1, "timeslot.start": 1 })
+
+    .lean();
+
+  return appointments;
+};
+
+module.exports = { createAppointment , getAppointments, getAppointmentById, updateAppointment, softDelete,getAvailableSlots,updateAppointmentStatus,getMyAppointments};
+

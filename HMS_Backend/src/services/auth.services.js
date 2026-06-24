@@ -14,8 +14,10 @@ const ApiResponse = require('../utils/ApiResponse');
 const {STATUS} = require('../constants/basic.constant')
 const patientService = require('./patient.services');
 const ROLES = require('../constants/role.constant');
+const AuthSession = require('../models/AuthSession')
+
 const verifyUserByToken = async (token) => {
-const crypto = require('crypto')
+// const crypto = require('crypto')
     if (!token) {
         throw new ApiError(400, "Verification token is required");
     }
@@ -132,9 +134,14 @@ const loginUser = async({email,password})=>{
     if(!user.isVerified){
         throw new ApiError(403,'Verify email before logging in');
     }
+    const role = await Roles.findById(user.roleId);
+
+    if(role.roleName === ROLES.PATIENT.roleName){
+        throw new ApiError(403,"Access Denied");
+    }
+
     user.lastLoginAt = new Date();
     
-    const role = await Roles.findById(user.roleId);
     const permissions = role.roleName === ROLES.OWNER.roleName?["*"]:ROLE_PERMISSIONS[role.roleName];
 
     const token = jwt.generateToken({
@@ -149,20 +156,59 @@ const loginUser = async({email,password})=>{
     return {token : token,roleName: role.roleName, permissions : permissions};
 }
 
+const loginPatient = async({email,password})=>{
+    console.log("Login for patient service working", email, password)
+    const user = await User.findOne({email}).select("+passwordHash");
+    if(!user){
+        throw new ApiError(401,"Invalid credentials");
+    }
 
+    const isMatch = await bcrypt.compare(password,user.passwordHash);
+    if(!isMatch){
+        throw new ApiError(401,"Invalid credentials");
+    }
+    if(!user.isVerified){
+        throw new ApiError(403,'Verify email before logging in');
+    }
+    const role = await Roles.findById(user.roleId);
+    if(role.roleName !== ROLES.PATIENT.roleName){
+        throw new ApiError(403,"Access Denied");
+    }
 
+    user.lastLoginAt = new Date();
+    
+    const permissions = role.roleName === ROLES.OWNER.roleName?["*"]:ROLE_PERMISSIONS[role.roleName];
 
+    const accessToken = jwt.generateToken({
+        payload: {
+        userId: user._id,
+        roleName: role.roleName,
+        permissions,
+        },
+        type: jwt.tokenType.ACCESS,
+    });
 
+    // 🔥 REFRESH TOKEN
+    const refreshToken = jwt.generateToken({
+        payload: { userId: user._id },
+        type: jwt.tokenType.REFRESH,
+    });
 
-
-
-
-
-
-
-
-
-
+    // 🔥 STORE SESSION
+    await AuthSession.create({
+        userId: user._id,
+        refreshToken,
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    });
+    user.lastLoginAt = new Date();
+    await user.save();
+    return {
+        accessToken,
+        refreshToken,
+        roleName: role.roleName,
+        permissions,
+    };
+}
 
 const registerApproval = async (data) => {
 
@@ -228,5 +274,41 @@ const resendVerificationEmail = async (email) => {
   return { message: "Verification email resent" };
 };
 
+const refreshAccessToken = async(refreshToken)=>{
+    if(!refreshToken){
+        throw new ApiError(401,"Refresh token required");
+    }
 
-module.exports = {verifyUserByToken, loginUser,registerApproval,verifyEmail,resendVerificationEmail,forgotPassword, resetPassword};
+    const payload = jwt.verifyToken({
+        token : refreshToken,
+        type : jwt.tokenType.REFRESH,
+    });
+
+    const session = await AuthSession.findOne({
+        refreshToken,
+        userId : payload.userId,
+        isRevoked : false,
+    })
+
+    if(!session){
+        throw new ApiError(401,"Invalid session ");
+    }
+
+    if(session.expiresAt < new Date()){
+        throw new ApiError(401,"Session expired");
+    }
+
+    const newAccessToken = jwt.generateToken({
+        payload : {userId : payload.userId},
+        type : jwt.tokenType.ACCESS,
+    })
+    return newAccessToken;
+}   
+
+const logoutPatient = async(refreshToken)=>{
+    await AuthSession.updateOne(
+        {refreshToken},
+        {isRevoked : true}
+    )
+}  
+module.exports = {verifyUserByToken, loginUser,registerApproval,verifyEmail,resendVerificationEmail,forgotPassword, resetPassword,loginPatient,refreshAccessToken,logoutPatient};

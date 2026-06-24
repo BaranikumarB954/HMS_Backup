@@ -1,6 +1,7 @@
 const ApiError = require('../utils/ApiError')
 const generateId = require('../utils/idGenerator');
 const User = require('../models/User')
+const bcrypt = require("bcrypt");
 const Patient = require('../models/Patient')
 const Roles = require('../models/Roles')
 const userService = require('./user.services');
@@ -8,6 +9,7 @@ const { STATUS } = require('../constants/basic.constant');
 const sendEmail = require('../utils/sendEmail');
 const { patientAccountTemplate } = require('../utils/templates/emailTemplates');
 const ROLES = require('../constants/role.constant');
+const AuthSession = require('../models/AuthSession');
 
 const createPatientByUserId = async(userId)=>{
     const role = await Roles.findOne({roleName : "PATIENT"});
@@ -211,5 +213,100 @@ const togglePatientStatus = async (userId) => {
   return { status: user.status };
 };
 
-module.exports = {createPatientByUserId,createPatientRecord,getAllPatients,checkPatient,updatePatient,deletePatient,togglePatientStatus,}
+const getPatientProfile = async(userId)=>{
+  console.log("Profile service running");
+  const user = await User.findById(userId).select("-passwordHash");
+  console.log("USER ID : ",userId)
+  if(!user){
+    throw new ApiError(404,"User not found");
+  }
+  const patient = await Patient.findOne({userId : user._id});
+  if(!patient){
+    throw new ApiError(404,"Patient not found");
+  }
+
+  return {user,patient};
+  
+}
+
+
+const updatePatientProfile = async (userId, body) => {
+  const {
+    firstName,
+    lastName,
+    phone,
+    gender,
+    dob,
+    bloodGroup,
+    street,
+    city,
+    state,
+    pincode,
+    emgContName,
+    emgContPhone,
+  } = body;
+
+  // 🔹 UPDATE USER
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { firstName, lastName, phone },
+    { new: true }
+  );
+
+  if (!user) throw new ApiError(404, "User not found");
+
+  // 🔹 UPDATE PATIENT
+  const patient = await Patient.findOneAndUpdate(
+    { userId },
+    {
+      gender,
+      dob,
+      bloodGroup,
+      address: {
+        street,
+        city,
+        state,
+        pincode,
+      },
+      emgContName,
+      emgContPhone,
+    },
+    { new: true }
+  );
+
+  if (!patient) throw new ApiError(404, "Patient not found");
+
+  // 🔹 PROFILE COMPLETE CHECK
+  const isComplete =
+    gender &&
+    dob &&
+    bloodGroup &&
+    city &&
+    emgContName &&
+    emgContPhone;
+
+  patient.isProfileCompleted = !!isComplete;
+  await patient.save();
+
+  return { user, patient };
+};
+
+const changePatientPassword = async (userId, newPassword) => {
+  console.log("Change password for the patient service file running and ", userId, " and ",newPassword)
+  const user = await User.findById(userId).select("+passwordHash");
+
+  if (!user) throw new ApiError(404, "User not found");
+
+  const hash = await bcrypt.hash(newPassword, 10);
+
+  user.passwordHash = hash;
+  await user.save();
+
+  await AuthSession.updateMany(
+    {userId : user._id},
+    {isRevoked:true}
+  )
+};
+
+module.exports = {createPatientByUserId,createPatientRecord,getAllPatients,checkPatient,updatePatient,deletePatient,togglePatientStatus,getPatientProfile,updatePatientProfile,changePatientPassword }
 

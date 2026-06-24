@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { APMNT_STATUS } = require('../constants/basic.constant');
+const { APMNT_STATUS, APMNT_TYPE } = require('../constants/basic.constant');
 
 const appointmentSchema = new mongoose.Schema(
   {
@@ -41,6 +41,22 @@ const appointmentSchema = new mongoose.Schema(
       type: String,
       enum: Object.values(APMNT_STATUS),
       default: APMNT_STATUS.BOOKED
+    },
+    revisitRequired: {
+      type: Boolean,
+      default: false
+    },
+
+    parentAppointmentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Appointment',
+      default: null
+    },
+
+    appointmentType: {
+      type: String,
+      enum: Object.values(APMNT_TYPE),
+      default: APMNT_TYPE.CONSULTATION
     },
 
     createdByEmployeeId: {

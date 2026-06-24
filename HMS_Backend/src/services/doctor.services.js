@@ -5,6 +5,7 @@ const ApiError = require('../utils/ApiError');
 const { STATUS } = require('../constants/basic.constant');
 const User = require('../models/User');
 const Appointment = require('../models/Appointments');
+const { bookingDepartments } = require('../constants/dept.constant');
 
 const getDoctorsByDept = async (deptName) => {
 
@@ -249,4 +250,115 @@ const getDoctorFullInfo = async (empId) => {
     avlblEndTime: doctor.avlblEndTime
   };
 }
-module.exports = { getDoctorFullInfo,getDoctorsByDept,checkDoctor,getDoctorsInfoByDept, updateDoctor,getDoctorDashboard };
+
+const getDoctorsApmntDept = async()=>{  
+  return bookingDepartments;
+}
+
+const getTopDoctorsByDept = async () => {
+
+  const result = await Appointment.aggregate([
+
+    // ✅ Ignore deleted
+    {
+      $match: { isDeleted: false }
+    },
+
+    // ✅ Count appointments per doctor
+    {
+      $group: {
+        _id: "$doctorId",
+        totalAppointments: { $sum: 1 }
+      }
+    },
+
+    // ✅ Join Doctor
+    {
+      $lookup: {
+        from: "doctors",
+        localField: "_id",
+        foreignField: "_id",
+        as: "doctor"
+      }
+    },
+    { $unwind: "$doctor" },
+
+    // ✅ Join Employee
+    {
+      $lookup: {
+        from: "employees",
+        localField: "doctor.employeeId",
+        foreignField: "_id",
+        as: "employee"
+      }
+    },
+    { $unwind: "$employee" },
+
+    // ✅ Join User (for name)
+    {
+      $lookup: {
+        from: "users",
+        localField: "employee.userId",
+        foreignField: "_id",
+        as: "user"
+      }
+    },
+    { $unwind: "$user" },
+
+    // ✅ Join Department
+    {
+      $lookup: {
+        from: "departments",
+        localField: "employee.departmentId",
+        foreignField: "_id",
+        as: "department"
+      }
+    },
+    { $unwind: "$department" },
+
+    // ✅ Format
+    {
+      $project: {
+        doctorId: "$_id",
+        totalAppointments: 1,
+        deptName: "$department.deptName",
+
+        employeeId: "$employee.employeeId",
+        firstName: "$user.firstName",
+        lastName: "$user.lastName",
+
+        specialization: "$doctor.specialization",
+        consultationFee: "$doctor.consultationFee",
+        avlblStartTime: "$doctor.avlblStartTime",
+        avlblEndTime: "$doctor.avlblEndTime",
+        expYears: "$doctor.expYears"
+      }
+    },
+
+    // ✅ Sort by performance
+    {
+      $sort: { totalAppointments: -1 }
+    }
+
+  ]);
+
+  // ✅ Group in JS (top 3 per dept)
+  const grouped = {};
+
+  result.forEach(doc => {
+    if (!grouped[doc.deptName]) {
+      grouped[doc.deptName] = [];
+    }
+
+    if (grouped[doc.deptName].length < 3) {
+      grouped[doc.deptName].push(doc);
+    }
+  });
+
+  return Object.keys(grouped).map(dept => ({
+    deptName: dept,
+    doctors: grouped[dept]
+  }));
+};
+
+module.exports = { getDoctorFullInfo,getDoctorsByDept,checkDoctor,getDoctorsInfoByDept, updateDoctor,getDoctorDashboard, getDoctorsApmntDept, getTopDoctorsByDept};

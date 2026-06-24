@@ -3,9 +3,10 @@ const {createRouter,auth,errorValidate} = require('./routesServices/routes.heade
 const authorize = require('../middleware/authorize.middleware');
 const PERMISSIONS = require('../constants/permissions');
 const authorizeAppointment = require('../middleware/authorizeAppointment');
-const { createAppointment,getAppointments,getAppointmentById,updateAppointment,deleteAppointment, getSlots,updateAppointmentStatus} = require('../controllers/appointment.controller')
+const { createAppointment,getAppointments,getAppointmentById,updateAppointment,deleteAppointment, getSlots,updateAppointmentStatus,getMyAppointments} = require('../controllers/appointment.controller')
 const router = createRouter();
 
+router.get('/myAppointments',auth,getMyAppointments);
 router.post('/addAppointment',auth,authorize(PERMISSIONS.CREATE_APPOINTMENT),authorizeAppointment('CREATE'),createAppointment);
 router.get('/getAppointments',auth,getAppointments);
 router.get('/getApmntById/:id',auth,getAppointmentById);

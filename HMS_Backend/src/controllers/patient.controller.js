@@ -35,3 +35,29 @@ exports.togglePatientStatus = asyncHandler(async (req, res) => {
   const data = await patientService.togglePatientStatus(req.params.userId);
   res.status(200).json(new ApiResponse(200, data));
 });
+
+exports.getPatientProfile = asyncHandler(async(req,res)=>{
+  const userId = req.user.userId;
+  console.log("USER FROM TOKEN : ",req.user, " USER ID : ", userId);
+
+  const data = await patientService.getPatientProfile(userId);
+  res.status(200).json(new ApiResponse(200,data));
+})
+
+exports.updatePatientProfile = asyncHandler(async (req, res) => {
+  const userId = req.user.userId;
+
+  const data = await patientService.updatePatientProfile(userId, req.body);
+
+  res.status(200).json(new ApiResponse(200, data, "Profile updated"));
+});
+
+// 🔹 CHANGE PASSWORD
+exports.changePassword = asyncHandler(async (req, res) => {
+  const userId = req.user.userId;
+  const { newPassword } = req.body;
+
+  await patientService.changePatientPassword(userId, newPassword);
+
+  res.status(200).json(new ApiResponse(200, {}, "Password updated"));
+});

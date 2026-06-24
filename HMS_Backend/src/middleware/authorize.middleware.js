@@ -13,10 +13,6 @@ const authorize = (requiredPermission) => {
 
       const roleCode = user.roleName; // "OWN", "DOC", etc.
 
-      
-      
-      
-
 
       if (roleCode === ROLES.OWNER.roleName) {
         return next();

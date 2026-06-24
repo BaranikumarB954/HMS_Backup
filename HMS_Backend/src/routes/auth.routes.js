@@ -8,11 +8,17 @@ const {
     login,
     verifyEmail,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    loginPatient,
+    refreshAccessToken,
+    logoutPatient
 } = require('../controllers/auth.controller');
 
+router.post('/refresh',refreshAccessToken);
+router.post('/logout',logoutPatient)
 router.post('/signup',userSignupValidator,errorValidate,signup);
 router.post('/login',userLoginValidator,errorValidate,login);
+router.post('/patientLogin',userLoginValidator,errorValidate,loginPatient)
 router.get('/verify-email',verifyEmail);
 router.post('/forgot-password',forgotPassword);
 router.post('/reset-password/:token',resetPassword);

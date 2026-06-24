@@ -2,14 +2,20 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { useRouter, usePathname, Href } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { bottomNavStyles as styles } from "../../styles/bottomNav.styles";
+import { COLORS } from "../../styles/themeColors";
 
-export default function BottomNav() {
+// ✅ define props type
+type BottomNavProps = {
+  patient?: any;
+};
+
+export default function BottomNav({ patient }: BottomNavProps) {
   const router = useRouter();
   const pathname = usePathname();
 
   const tabs: { name: string; route: Href; icon: any }[] = [
     { name: "Home", route: "/patient/dashboard", icon: "home-outline" },
-    { name: "Appointments", route: "/patient/appointment", icon: "calendar-outline" },
+    { name: "Appointments", route: "/patient/appointment/appointmentDashboard", icon: "calendar-outline" },
     { name: "Records", route: "/patient/health-records", icon: "document-text-outline" },
     { name: "Profile", route: "/patient/profile", icon: "person-outline" },
   ];
@@ -23,15 +29,31 @@ export default function BottomNav() {
           <TouchableOpacity
             key={index}
             style={styles.tab}
-            onPress={() => router.replace(tab.route)}
+            onPress={() => router.push(tab.route)}
           >
-            <Ionicons
-              name={isActive ? tab.icon.replace("-outline", "") : tab.icon}
-              size={22}
-              color={isActive ? "#2563eb" : "#94a3b8"}
-            />
+            <View style={styles.iconWrapper}>
+              <Ionicons
+                name={isActive ? tab.icon.replace("-outline", "") : tab.icon}
+                size={22}
+                color={
+                  isActive ? COLORS.primary600 : COLORS.textSecondary
+                }
+              />
 
-            <Text style={[styles.label, isActive && styles.activeLabel]}>
+              {/* 🔴 Profile incomplete indicator */}
+              {tab.name === "Profile" &&
+                patient &&
+                !patient.isProfileCompleted && (
+                  <View style={styles.redDot} />
+                )}
+            </View>
+
+            <Text
+              style={[
+                styles.label,
+                isActive && styles.activeLabel,
+              ]}
+            >
               {tab.name}
             </Text>
           </TouchableOpacity>

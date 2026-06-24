@@ -17,6 +17,13 @@ exports.login = asyncHandler(async(req,res)=>{
     res.status(200).json(new ApiResponse(200,responseData));
 });
 
+exports.loginPatient = asyncHandler(async(req,res)=>{
+    console.log("login for patient controller working")
+    const {email,password} = req.body;
+    const responseData = await authService.loginPatient({email,password});
+    res.status(200).json(new ApiResponse(200,responseData));
+});
+
 exports.verifyEmail = asyncHandler(async (req, res) => {
 
     const token = req.query.token; // ✅ extract here
@@ -56,4 +63,17 @@ exports.resetPassword = asyncHandler(async(req,res)=>{
 
     const result = await authService.resetPassword({token,email,newPassword : password });
     return res.status(200).send(new ApiResponse(200,result));
+})
+
+exports.refreshAccessToken = asyncHandler(async(req,res)=>{
+    const { refreshToken } = req.body;
+
+    const newAccessToken = await authService.refreshAccessToken(refreshToken);
+    return res.status(200).send(new ApiResponse(200,{accessToken : newAccessToken }));
+})
+
+exports.logoutPatient = asyncHandler(async(req,res)=>{
+    const { refreshToken } = req.body;
+    await authService.logoutPatient(refreshToken);
+    return res.status(200).send(new ApiResponse(200,"Logged out successfully"));
 })

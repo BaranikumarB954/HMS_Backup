@@ -10,9 +10,18 @@ const STATUS = Object.freeze({
 });
 
 const APMNT_STATUS = Object.freeze({
+  PENDING : "PENDING",
+  APPROVED : "APPROVED",
+  REJECTED : "REJECTED",
   BOOKED : "BOOKED",
   CANCELLED : "CANCELLED",
   COMPLETED : "COMPLETED"
+})
+
+const APMNT_TYPE = Object.freeze({
+  CONSULTATION : "CONSULTATION",
+  LAB: "LAB",
+  RAD : "RAD"
 })
 
 const APPROVAL_STATUS = Object.freeze({
@@ -21,5 +30,5 @@ const APPROVAL_STATUS = Object.freeze({
   REJECTED : "REJECTED"
 });
 
-module.exports = {GENDER,STATUS,APMNT_STATUS,APPROVAL_STATUS};
+module.exports = {GENDER,STATUS,APMNT_STATUS,APPROVAL_STATUS,APMNT_TYPE};
 

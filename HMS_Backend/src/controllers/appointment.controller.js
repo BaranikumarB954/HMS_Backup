@@ -55,3 +55,9 @@ exports.updateAppointmentStatus = asyncHandler(async (req, res) => {
 
   return res.status(200).json(new ApiResponse(200, data));
 });
+
+exports.getMyAppointments = asyncHandler(async(req,res)=>{
+  const userId = req.user.userId;
+  const data = await appointmentService.getMyAppointments(userId);
+  return res.status(200).json(new ApiResponse(200,data));
+})
