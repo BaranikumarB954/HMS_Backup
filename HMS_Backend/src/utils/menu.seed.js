@@ -49,6 +49,11 @@ const seedMenus = async () => {
       order: 6
     });
 
+    const healthRecords = await Menu.create({
+      name: "Health Records",
+      path: "health-records",
+      order: 7
+    });
 
     await Menu.insertMany([
       { name : 'Admin', path : "employee/admin", parentId: employee._id },

@@ -143,9 +143,27 @@
         </small>
 
       </div>
-      <div class="form-section">
-        <h3>Appointment Reason</h3>
-      </div>
+        <div class="form-section">
+  <h3>Appointment Reason</h3>
+
+  <div class="form-group full">
+    <textarea
+      class="enterprise-input reason-box"
+      [(ngModel)]="form.reason"
+      maxlength="500"
+      rows="4"
+      placeholder="Enter reason for appointment">
+    </textarea>
+
+    <div class="char-count">
+      {{ form.reason?.length || 0 }}/500
+    </div>
+
+    <small class="error-text" *ngIf="errors.reason">
+      {{ errors.reason }}
+    </small>
+  </div>
+        </div>
 
     </div>
 

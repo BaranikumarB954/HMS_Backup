@@ -1,5 +1,8 @@
-const mongoose = require('mongoose');
-const { APMNT_STATUS, APMNT_TYPE } = require('../constants/basic.constant');
+const mongoose = require("mongoose");
+const {
+  APMNT_STATUS,
+  APMNT_TYPE
+} = require("../constants/basic.constant");
 
 const appointmentSchema = new mongoose.Schema(
   {
@@ -11,19 +14,19 @@ const appointmentSchema = new mongoose.Schema(
 
     patientId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Patient',
+      ref: "Patient",
       required: true
     },
 
     doctorId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Doctor',
+      ref: "Doctor",
       required: true
     },
 
     departmentId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Departments',
+      ref: "Departments",
       required: true
     },
 
@@ -33,24 +36,20 @@ const appointmentSchema = new mongoose.Schema(
     },
 
     timeslot: {
-      start: { type: String, required: true }, // "10:00"
-      end: { type: String, required: true }    // "10:30"
+      start: {
+        type: String,
+        required: true
+      },
+      end: {
+        type: String,
+        required: true
+      }
     },
 
     status: {
       type: String,
       enum: Object.values(APMNT_STATUS),
       default: APMNT_STATUS.BOOKED
-    },
-    revisitRequired: {
-      type: Boolean,
-      default: false
-    },
-
-    parentAppointmentId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Appointment',
-      default: null
     },
 
     appointmentType: {
@@ -59,17 +58,49 @@ const appointmentSchema = new mongoose.Schema(
       default: APMNT_TYPE.CONSULTATION
     },
 
-    createdByEmployeeId: {
+    reason: {
+      type: String,
+      default: null
+    },
+
+    revisitRequired: {
+      type: Boolean,
+      default: false
+    },
+
+    parentAppointmentId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Employee',
+      ref: "Appointment",
+      default: null
+    },
+
+    // NEW
+    healthRecordId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "HealthRecord",
+      default: null
+    },
+
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      refPath: "createdByModel"
+    },
+
+    createdByModel: {
+      type: String,
+      enum: ["Employee", "Patient"],
       required: true
     },
+
     isDeleted: {
       type: Boolean,
       default: false
     }
   },
-  { timestamps: true }
+  {
+    timestamps: true
+  }
 );
 
-module.exports = mongoose.model('Appointment', appointmentSchema);
+module.exports = mongoose.model("Appointment", appointmentSchema);

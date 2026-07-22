@@ -1,6 +1,14 @@
 const mongoose = require('mongoose');
 
 const testReportSchema = new mongoose.Schema({
+
+  // 🔥 ADD THIS (IMPORTANT LINK)
+  healthRecordId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'HealthRecord',
+    required: true
+  },
+
   appointmentId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Appointment',
@@ -41,7 +49,7 @@ const testReportSchema = new mongoose.Schema({
   },
 
   reportData: {
-    type: String // simple text instead of file (your requirement)
+    type: String
   }
 
 }, { timestamps: true });

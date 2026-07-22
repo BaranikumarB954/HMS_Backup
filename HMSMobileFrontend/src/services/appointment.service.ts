@@ -17,8 +17,13 @@ export const getSlots = async (doctorEmployeeId: string, appointmentDate: string
 
 
 // ✅ CREATE APPOINTMENT
-export const createAppointment = async (data: any) => {
-  const res = await API.post("/api/appointments/addAppointment", data);
+export const createAppointment = async (payload: any) => {
+  console.log("My Appointment Payload : ", payload);
+  const res = await API.post(
+    "/api/appointments/addAppointment",
+    payload
+  );
+
   return res.data.data;
 };
 

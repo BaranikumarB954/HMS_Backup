@@ -27,19 +27,19 @@ const seedRoleMenus = async () => {
 
 
     const adminMenus = mapMenus(
-      ["Dashboard", "Employee","Doctor", "Patient", "Departments", "Approvals", "Appointments"],
+      ["Dashboard", "Employee","Doctor", "Patient", "Departments", "Approvals", "Appointments","Health Records"],
       ROLES.ADMIN.roleName
     );
 
 
     const doctorMenus = mapMenus(
-      ["Dashboard", "Patient","Appointments"],
+      ["Dashboard", "Patient","Appointments","Health Records"],
       ROLES.DOCTOR.roleName
     );
 
 
     const receptionistMenus = mapMenus(
-      ["Dashboard", "Patient", "Appointments"],
+      ["Dashboard", "Patient", "Appointments","Health Records"],
       ROLES.RECEPTIONIST.roleName
     );
 

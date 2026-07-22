@@ -1,4 +1,4 @@
-import DoctorCard from "@/src/components/appointment/DoctorCard";
+import DoctorCard from "@/src/components/doctor/DoctorCard";
 import BottomNav from "@/src/components/common/BottomNav";
 import {
   getBookingDepts,

@@ -11,10 +11,39 @@ exports.signup = asyncHandler(async(req,res)=>{
     return res.status(201).send(new ApiResponse(201,user));
 });
 
-exports.login = asyncHandler(async(req,res)=>{
-    const {email,password} = req.body;
-    const responseData = await authService.loginUser({email,password});
-    res.status(200).json(new ApiResponse(200,responseData));
+exports.login = asyncHandler(async (req, res) => {
+
+    const { email, password } = req.body;
+
+    const responseData = await authService.loginUser({
+        email,
+        password
+    });
+
+    // Store Access Token Cookie
+    res.cookie("accessToken", responseData.accessToken, {
+        httpOnly: true,
+        secure: false, // true in production HTTPS
+        sameSite: "lax",
+        maxAge: 15 * 60 * 1000
+    });
+
+    // Store Refresh Token Cookie
+    res.cookie("refreshToken", responseData.refreshToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
+    // Don't send tokens in response body
+    delete responseData.accessToken;
+    delete responseData.refreshToken;
+
+    res.status(200).json(
+        new ApiResponse(200, responseData)
+    );
+
 });
 
 exports.loginPatient = asyncHandler(async(req,res)=>{
@@ -65,15 +94,54 @@ exports.resetPassword = asyncHandler(async(req,res)=>{
     return res.status(200).send(new ApiResponse(200,result));
 })
 
-exports.refreshAccessToken = asyncHandler(async(req,res)=>{
-    const { refreshToken } = req.body;
+exports.refreshAccessToken = asyncHandler(async (req, res) => {
 
-    const newAccessToken = await authService.refreshAccessToken(refreshToken);
-    return res.status(200).send(new ApiResponse(200,{accessToken : newAccessToken }));
-})
+    // Mobile → body
+    let refreshToken = req.body.refreshToken;
 
-exports.logoutPatient = asyncHandler(async(req,res)=>{
-    const { refreshToken } = req.body;
+    // Web → cookie fallback
+    if (!refreshToken && req.cookies?.refreshToken) {
+        refreshToken = req.cookies.refreshToken;
+    }
+
+    if (!refreshToken) {
+        throw new ApiError(401, "Refresh token required");
+    }
+
+    const newAccessToken =
+        await authService.refreshAccessToken(refreshToken);
+
+    // If request came from web → set cookie
+    if (req.cookies?.refreshToken) {
+        res.cookie("accessToken", newAccessToken, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            maxAge: 15 * 60 * 1000
+        });
+
+        return res.json(new ApiResponse(200, {
+            message: "Token refreshed (cookie mode)"
+        }));
+    }
+
+    // Mobile → return JSON
+    return res.json(new ApiResponse(200, {
+        accessToken: newAccessToken
+    }));
+});
+
+exports.logoutPatient = asyncHandler(async (req, res) => {
+
+    const refreshToken = req.cookies.refreshToken;
+
     await authService.logoutPatient(refreshToken);
-    return res.status(200).send(new ApiResponse(200,"Logged out successfully"));
-})
+
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");
+
+    return res.status(200).json(
+        new ApiResponse(200, "Logged out successfully")
+    );
+
+});

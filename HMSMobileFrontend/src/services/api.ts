@@ -25,6 +25,10 @@ API.interceptors.request.use(
 API.interceptors.response.use(
   (response) => response,
   async (error) => {
+    
+    console.log("Interceptor triggered");
+    console.log("Status:", error.response?.status);
+
     const originalRequest = error.config;
 
     // 🔴 TOKEN EXPIRED

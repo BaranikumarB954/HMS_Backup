@@ -1,0 +1,193 @@
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(44, 44, 42, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* POPUP BOX */
+.popup {
+  width: 900px;
+  max-height: 90vh;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 0.5px solid #d3d1c7;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* HEADER */
+.popup-header {
+  padding: 16px 20px;
+  background: #f1efe8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 0.5px solid #d3d1c7;
+}
+
+.popup-header h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2c2c2a;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #5f5e5a;
+}
+
+/* BODY */
+.popup-body {
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* FORM GROUP */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2c2c2a;
+}
+
+input,
+textarea,
+select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 0.5px solid #d3d1c7;
+  font-size: 13px;
+  outline: none;
+  color: #2c2c2a;
+  background: #fff;
+}
+
+textarea {
+  min-height: 70px;
+  resize: none;
+}
+
+/* CHECKBOX GROUP */
+.checkbox-group {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+  color: #2c2c2a;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* SECTION TITLE */
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #2c2c2a;
+  margin-top: 10px;
+}
+
+/* MEDICINE CARD */
+.medicine-card {
+  border: 0.5px solid #d3d1c7;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #fafaf7;
+}
+
+.medicine-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+/* REMOVE BUTTON */
+.btn-remove {
+  align-self: flex-end;
+  background: #fde2e2;
+  color: #b42318;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.btn-remove:hover {
+  background: #f8caca;
+}
+
+/* FOOTER */
+.popup-footer {
+  padding: 14px 20px;
+  border-top: 0.5px solid #d3d1c7;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background: #ffffff;
+}
+
+/* BUTTONS */
+.btn-cancel {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #d3d1c7;
+  background: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background: #f8f8f5;
+}
+
+.btn-save {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #185fa5;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-save:hover {
+  background: #0c447c;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .popup {
+    width: 95%;
+  }
+
+  .medicine-grid {
+    grid-template-columns: 1fr;
+  }
+}

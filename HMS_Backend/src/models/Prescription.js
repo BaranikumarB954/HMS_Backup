@@ -1,39 +1,51 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const prescriptionSchema = new mongoose.Schema(
   {
-    // 🔥 LINK TO HEALTH RECORD
     healthRecordId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'HealthRecord',
+      ref: "HealthRecord",
       required: true
     },
 
-    // 🔥 MEDICINE NAME
     name: {
       type: String,
       required: true
     },
 
-    // 🔥 DOSAGE
-    dosage: {
+    strength: {
       type: String,
       required: true
     },
 
-    // 🔥 DURATION
-    duration: {
-      type: String,
-      required: true
+    timing: {
+      morning: { type: Boolean, default: false },
+      afternoon: { type: Boolean, default: false },
+      night: { type: Boolean, default: false },
+
+      foodTiming: {
+        type: String,
+        enum: ["BEFORE_FOOD", "AFTER_FOOD"],
+        default: "AFTER_FOOD"
+      },
+
+      durationDays: {
+        type: Number,
+        required: true
+      }
     },
 
-    // 🔥 OPTIONAL INSTRUCTIONS
     instructions: {
-      type: String
-    }
+      type: String,
+      default: ""
+    },
 
+    isDeleted: {
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Prescription', prescriptionSchema);
+module.exports = mongoose.model("Prescription", prescriptionSchema);

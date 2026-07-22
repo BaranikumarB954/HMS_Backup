@@ -10,6 +10,8 @@ import {
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 
+import BottomNav from "@/src/components/common/BottomNav";
+
 import { getMyAppointments } from "@/src/services/appointment.service";
 import AppointmentCard from "@/src/components/appointment/AppointmentCard";
 import EmptyState from "@/src/components/common/EmptyState"; // ✅ NEW
@@ -54,37 +56,36 @@ export default function MyAppointmentsScreen() {
   });
 
   return (
-    <View style={{ flex: 1,paddingTop:50 }}>
+  <View style={{ flex: 1, paddingTop: 50 }}>
 
-      {/* 🔥 TABS (ALWAYS VISIBLE) */}
-      <View style={styles.tabContainer}>
-        {["UPCOMING", "COMPLETED", "CANCELLED"].map((tab) => (
-          <TouchableOpacity
-            key={tab}
+    {/* TABS */}
+    <View style={styles.tabContainer}>
+      {["UPCOMING", "COMPLETED", "CANCELLED"].map((tab) => (
+        <TouchableOpacity
+          key={tab}
+          style={[
+            styles.tab,
+            activeTab === tab && styles.activeTab
+          ]}
+          onPress={() => setActiveTab(tab)}
+        >
+          <Text
             style={[
-              styles.tab,
-              activeTab === tab && styles.activeTab
+              styles.tabText,
+              activeTab === tab && styles.activeTabText
             ]}
-            onPress={() => setActiveTab(tab)}
           >
-            <Text
-              style={[
-                styles.tabText,
-                activeTab === tab && styles.activeTabText
-              ]}
-            >
-              {tab}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+            {tab}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </View>
 
-      {/* 🔄 LOADING */}
+    {/* CONTENT */}
+    <View style={{ flex: 1 }}>
       {loading ? (
         <ActivityIndicator style={{ marginTop: 50 }} />
       ) : filteredAppointments.length === 0 ? (
-
-        // ✅ EMPTY STATE (PER TAB)
         <EmptyState
           message={
             activeTab === "UPCOMING"
@@ -94,10 +95,7 @@ export default function MyAppointmentsScreen() {
               : "No cancelled appointments"
           }
         />
-
       ) : (
-
-        // ✅ LIST
         <FlatList
           data={filteredAppointments}
           keyExtractor={(item) => item._id}
@@ -108,10 +106,17 @@ export default function MyAppointmentsScreen() {
               onReschedule={handleReschedule}
             />
           )}
-          contentContainerStyle={{ padding: 10 }}
+          contentContainerStyle={{
+            padding: 10,
+            paddingBottom: 100 // space for bottom nav
+          }}
         />
-
       )}
     </View>
-  );
+
+    {/* FIXED BOTTOM NAV */}
+    <BottomNav />
+
+  </View>
+);
 }

@@ -1,14 +1,17 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { doctorCardStyles as styles } from "@/src/styles/doctorCard.styles";
-import { formatTo12Hour } from "@/src/utils/commonFunctions";
+import { formatTo12Hour,formatCurrency,getInitials } from "@/src/utils/commonFunctions";
 
 export default function DoctorCard({ doctor }: any) {
   const router = useRouter();
 
   const fullName = `${doctor.firstName} ${doctor.lastName}`;
-  const initials = `${doctor.firstName[0]}${doctor.lastName[0]}`;
-
+  // const initials = `${doctor.firstName[0]}${doctor.lastName[0]}`;
+  const initials = getInitials(
+  doctor.firstName,
+  doctor.lastName
+);
   return (
     <View style={styles.card}>
 
@@ -49,7 +52,7 @@ export default function DoctorCard({ doctor }: any) {
 
         {/* FEE */}
         <View style={styles.feeBox}>
-          <Text style={styles.fee}>₹{doctor.consultationFee}</Text>
+          <Text style={styles.fee}>{formatCurrency(doctor.consultationFee)}</Text>
           <Text style={styles.feeLabel}>Consultation Fee</Text>
         </View>
 
@@ -61,7 +64,13 @@ export default function DoctorCard({ doctor }: any) {
         onPress={() =>
           router.push({
             pathname: "/patient/appointment/bookAppointment",
-            params: { empId: doctor.employeeId }
+            params: {
+              empId: doctor.employeeId,
+              doctorName: `${doctor.firstName} ${doctor.lastName}`,
+              specialization: doctor.specialization,
+              fee: doctor.consultationFee,
+              deptName: doctor.departmentName || doctor.deptName
+            }
           })
         }
       >

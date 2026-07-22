@@ -92,33 +92,40 @@
 /* =========================
    STATUS TABS (LIKE EMPLOYEES)
 ========================= */
-.status-tabs {
+/* =========================
+   STATUS FILTER
+========================= */
+
+.status-filter {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
   margin-top: -10px;
 }
 
-.tab-btn {
-  padding: 8px 16px;
-  border-radius: 10px;
+.status-filter label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2C2C2A;
+}
+
+.status-filter select {
+  width: 220px;
+  height: 40px;
+  padding: 0 12px;
   border: 1px solid #D3D1C7;
+  border-radius: 8px;
   background: #F8F8F5;
   color: #2C2C2A;
   font-size: 14px;
+  outline: none;
   cursor: pointer;
-  transition: 0.2s;
 }
 
-.tab-btn:hover {
-  background: #ECEBE5;
-}
-
-.tab-btn.active {
-  background: #E3ECF7;
+.status-filter select:focus {
   border-color: #185FA5;
-  color: #185FA5;
-  font-weight: 600;
 }
+
 
 /* =========================
    STATUS BADGES

@@ -153,7 +153,34 @@ const loginUser = async({email,password})=>{
         type : jwt.tokenType.ACCESS,
     });
     await user.save();
-    return {token : token,roleName: role.roleName, permissions : permissions};
+    const accessToken = jwt.generateToken({
+    payload: {
+        userId: user._id,
+        roleName: role.roleName,
+        permissions
+    },
+    type: jwt.tokenType.ACCESS
+});
+
+const refreshToken = jwt.generateToken({
+    payload: {
+        userId: user._id
+    },
+    type: jwt.tokenType.REFRESH
+});
+
+await AuthSession.create({
+    userId: user._id,
+    refreshToken,
+    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+});
+
+return {
+    accessToken,
+    refreshToken,
+    roleName: role.roleName,
+    permissions
+};
 }
 
 const loginPatient = async({email,password})=>{
@@ -174,8 +201,6 @@ const loginPatient = async({email,password})=>{
     if(role.roleName !== ROLES.PATIENT.roleName){
         throw new ApiError(403,"Access Denied");
     }
-
-    user.lastLoginAt = new Date();
     
     const permissions = role.roleName === ROLES.OWNER.roleName?["*"]:ROLE_PERMISSIONS[role.roleName];
 

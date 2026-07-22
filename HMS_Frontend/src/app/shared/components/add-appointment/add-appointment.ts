@@ -20,7 +20,11 @@ export class AddAppointment implements OnInit {
     doctorEmployeeId: '',
     deptName: '',
     appointmentDate: '',
-    timeslot: { start: '', end: '' }
+    timeslot: {
+      start: '',
+      end: ''
+    },
+    reason: ''
   };
 
   departments: any[] = [];
@@ -264,10 +268,20 @@ validatePatient() {
       }
     }
 
+    if (!this.form.reason?.trim()) {
+      this.errors.reason = 'Reason is required';
+    } else if (this.form.reason.length > 500) {
+      this.errors.reason = 'Maximum 500 characters allowed';
+    }
+
     return Object.keys(this.errors).length === 0;
   }
 
   submit() {
+
+    if (!this.validateForm()) {
+      return;
+    }
 
   if (!this.form.timeslot) {
     alert("Select time slot");

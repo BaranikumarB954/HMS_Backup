@@ -1,49 +1,106 @@
-const ApiError = require('../utils/ApiError');
-const jwt = require('../utils/jwt');
-const User = require('../models/User');
-const Roles = require('../models/Roles');
+// const ApiError = require("../utils/ApiError");
+// const jwt = require("../utils/jwt");
+// const User = require("../models/User");
+
+// const jwtAuth = async (req, res, next) => {
+
+//     // ✅ Read Access Token from Cookie
+//     const token = req.cookies.accessToken;
+
+//     console.log("Auth running");
+//     console.log("Cookie Token:", token);
+
+//     if (!token) {
+//         return next(new ApiError(401, "Access token required"));
+//     }
+
+//     try {
+
+//         const decoded = jwt.verifyToken({
+//             token,
+//             type: jwt.tokenType.ACCESS
+//         });
+
+//         console.log("Decoded:", decoded);
+
+//         const user = await User.findById(decoded.userId)
+//             .populate("roleId");
+
+//         if (!user) {
+//             return next(new ApiError(404, "User not found"));
+//         }
+
+//         req.user = {
+//             userId: user._id,
+//             roleName: user.roleId.roleName
+//         };
+
+//         next();
+
+//     } catch (err) {
+//         next(err);
+//     }
+
+// };
+
+// module.exports = jwtAuth;
+
+const ApiError = require("../utils/ApiError");
+const jwt = require("../utils/jwt");
+const User = require("../models/User");
 
 const jwtAuth = async (req, res, next) => {
-    const authHeader = req.headers.authorization;
 
     console.log("Auth running");
 
-    if (!authHeader?.startsWith("Bearer ")) {
-        return next(new ApiError(401, 'Token required'));
+    let token = null;
+
+    // =========================
+    // 1️⃣ MOBILE (Bearer Token)
+    // =========================
+    const authHeader = req.headers.authorization;
+
+    if (authHeader?.startsWith("Bearer ")) {
+        token = authHeader.split(" ")[1];
     }
 
-    const token = authHeader.split(' ')[1];
-    console.log("Token:", token);
+    // =========================
+    // 2️⃣ WEB (Cookie Token)
+    // =========================
+    if (!token && req.cookies?.accessToken) {
+        token = req.cookies.accessToken;
+    }
+
+    console.log("Token found:", token);
+
+    if (!token) {
+        return next(new ApiError(401, "Access token required"));
+    }
 
     try {
+
         const decoded = jwt.verifyToken({
             token,
             type: jwt.tokenType.ACCESS
         });
 
-        console.log("Decoded:", decoded);
-
-        // 🔥 FETCH FULL USER + ROLE
         const user = await User.findById(decoded.userId)
-            .populate('roleId');
+            .populate("roleId");
 
         if (!user) {
-            throw new ApiError(404, "User not found");
+            return next(new ApiError(404, "User not found"));
         }
 
-        // 🔥 ATTACH FULL DATA
         req.user = {
             userId: user._id,
-            roleName: user.roleId?.roleName
+            roleName: user.roleId.roleName,
+            permissions: decoded.permissions
         };
-
-        console.log("Final req.user:", req.user);
 
         next();
 
     } catch (err) {
-        console.log("JWT ERROR:", err);
-        next(err);
+        return next(new ApiError(401, "Invalid or expired token"));
     }
 };
 

@@ -13,10 +13,12 @@ const authorizeAppointment = (action) => {
       }
 
       const role = user.roleName;
+      console.log("Role Name : ",role);
 
       if (role === ROLES.OWNER.roleName) return next();
       if (role === ROLES.RECEPTIONIST.roleName) return next();
-
+      if (role === ROLES.PATIENT.roleName) return next();
+      
       if (role === ROLES.ADMIN.roleName) {
 
         if (action === 'CREATE') {

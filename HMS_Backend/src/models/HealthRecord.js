@@ -1,92 +1,117 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const {
+  HEALTH_RECORD_STATUS
+} = require("../constants/basic.constant");
 
+require("./TestReport")
 const healthRecordSchema = new mongoose.Schema(
   {
-    // 🔥 UNIQUE RECORD ID
     recordId: {
       type: String,
       unique: true,
       required: true
     },
 
-    // 🔥 LINKED APPOINTMENT (MAIN CONSULTATION)
     appointmentId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Appointment',
-      required: true
+      ref: "Appointment",
+      required: true,
+      unique: true
     },
 
-    // 🔥 PATIENT
     patientId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Patient',
+      ref: "Patient",
       required: true
     },
 
-    // 🔥 DOCTOR
     doctorId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Doctor',
+      ref: "Doctor",
       required: true
     },
 
-    // 🔥 CLINICAL DATA
     symptoms: {
-      type: String
+      type: String,
+      default: ""
     },
 
     diagnosis: {
-      type: String
+      type: String,
+      default: ""
     },
 
-    // 🔥 PRESCRIPTION ARRAY
+    notes: {
+      type: String,
+      default: ""
+    },
+
     prescriptions: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Prescription'
+        ref: "Prescription"
       }
     ],
-    
-    notes: {
-      type: String
-    },
 
-    // 🔥 TEST REPORT LINKS (LAB / RAD)
     testReports: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'TestReport'
+        ref: "TestReport"
       }
     ],
 
-    // 🔥 RECORD STATUS
-    status: {
-      type: String,
-      enum: ["DRAFT", "FINAL"],
-      default: "DRAFT"
+    // NEW
+    isLabRequired: {
+      type: Boolean,
+      default: false
     },
 
-    // 🔥 AUDIT FIELDS
+    // NEW
+    isRadiologyRequired: {
+      type: Boolean,
+      default: false
+    },
+
+    status: {
+      type: String,
+      enum: Object.values(HEALTH_RECORD_STATUS),
+      default: HEALTH_RECORD_STATUS.DRAFT
+    },
+
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Employee'
+      ref: "Employee"
     },
 
     updatedBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Employee'
+      ref: "Employee"
     },
 
-    // 🔥 SOFT DELETE (OPTIONAL)
+    // NEW
+    finalizedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Employee",
+      default: null
+    },
+
+    // NEW
+    finalizedAt: {
+      type: Date,
+      default: null
+    },
+
     isDeleted: {
       type: Boolean,
       default: false
     }
-
   },
   {
     timestamps: true
   }
 );
 
-module.exports = mongoose.model('HealthRecord', healthRecordSchema);
+module.exports = mongoose.model(
+  "HealthRecord",
+  healthRecordSchema
+);

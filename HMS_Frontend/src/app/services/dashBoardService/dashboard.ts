@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,13 +9,10 @@ export class DashboardService {
 
   constructor(private http: HttpClient) {}
 
- getMenus() {
-  const token = localStorage.getItem('token');
-   
-  return this.http.get('/api/menu', {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
+  getMenus(): Observable<any> {
+    return this.http.get('/api/menu', {
+      withCredentials: true
+    });
   }
+
 }

@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, Alert } from "react-native";
 import { useState } from "react";
 import { appointmentCardStyles as styles } from "@/src/styles/appointmentCard.styles";
 import { cancelAppointment } from "@/src/services/appointment.service";
-import { formatTo12Hour } from "@/src/utils/commonFunctions";
+import { formatTo12Hour,formatAppointmentDate} from "@/src/utils/commonFunctions";
 
 export default function AppointmentCard({ appointment, onRefresh, onReschedule }: any) {
   const [cancelLoading, setCancelLoading] = useState(false);
@@ -20,8 +20,9 @@ export default function AppointmentCard({ appointment, onRefresh, onReschedule }
 
   const dept = appointment?.departmentId?.deptName || "General";
 
-  const date = new Date(appointment.appointmentDate)
-    .toLocaleDateString("en-GB");
+  const date = formatAppointmentDate(
+    appointment.appointmentDate
+  );
 
   const time = `${formatTo12Hour(appointment?.timeslot?.start)} - ${formatTo12Hour(appointment?.timeslot?.end)}`;
 

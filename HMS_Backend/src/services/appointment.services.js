@@ -6,6 +6,7 @@ const Doctor = require('../models/Doctor')
 const Employee = require('../models/Employee')
 const Departments = require('../models/Departments')
 const { APMNT_STATUS } = require('../constants/basic.constant');
+const ROLES = require('../constants/role.constant');
 
 const createAppointment = async (data, user) => {
 
@@ -15,30 +16,35 @@ const createAppointment = async (data, user) => {
     doctorEmployeeId,
     deptName,
     appointmentDate,
-    timeslot
+    timeslot,
+    reason
   } = data;
 
+  let createdById;
+  let createdByModel;
 
+  if (user.roleName === ROLES.PATIENT.roleName) {
+    const patient = await Patient.findOne({ userId: user.userId });
 
+    if (!patient) {
+      throw new ApiError(404, "Patient not found");
+    }
 
+    createdById = patient._id;
+    createdByModel = "Patient";
+  } else {
+    const employee = await Employee.findOne({ userId: user.userId });
 
-  
+    if (!employee) {
+      throw new ApiError(404, "Employee not found");
+    }
 
-  const createdByEmp = await Employee.findOne({ userId: user.userId });
-  
-  console.log("Employee : ",createdByEmp)
-  if (!createdByEmp) {
-    throw new ApiError(404, "Employee not found");
+    createdById = employee._id;
+    createdByModel = "Employee";
   }
-
-
-
 
   const patient = await Patient.findOne({ UHID: patientUHID });
   if (!patient) throw new ApiError(404, "Patient not found");
-
-
-
 
   const empDoctor = await Employee.findOne({ employeeId: doctorEmployeeId });
   if (!empDoctor) throw new ApiError(404, "Doctor employee not found");
@@ -46,14 +52,8 @@ const createAppointment = async (data, user) => {
   const doctor = await Doctor.findOne({ employeeId: empDoctor._id });
   if (!doctor) throw new ApiError(404, "Doctor not found");
 
-
-
-
   const department = await Departments.findOne({ deptName });
   if (!department) throw new ApiError(404, "Department not found");
-
-
-
 
   if (empDoctor.departmentId.toString() !== department._id.toString()) {
     throw new ApiError(400, "Doctor not belongs to selected department");
@@ -75,9 +75,6 @@ const createAppointment = async (data, user) => {
     throw new ApiError(409, "Doctor already booked for this slot");
   }
 
-
-
-
   const appointmentId = await generateId(`APMNT-${department.deptId}`);
 
   return await Appointment.create({
@@ -87,7 +84,9 @@ const createAppointment = async (data, user) => {
     departmentId: department._id,
     appointmentDate,
     timeslot,
-    createdByEmployeeId: createdByEmp._id // ✅ CORRECT
+    reason,
+    createdBy: createdById,
+    createdByModel
   });
 };
 
@@ -234,6 +233,17 @@ const getAvailableSlots = async (doctorEmployeeId, appointmentDate) => {
     throw new ApiError(400, "Doctor not joined on selected date");
   }
 
+  // ✅ NO PAST DATE
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const selected = new Date(appointmentDate);
+  selected.setHours(0, 0, 0, 0);
+
+  if (selected < today) {
+    throw new ApiError(400, "Past dates are not allowed");
+  }
+
   // ✅ SLOT GENERATION
   const slots = [];
 
@@ -245,7 +255,7 @@ const getAvailableSlots = async (doctorEmployeeId, appointmentDate) => {
   const toTime = (m) => {
     const h = Math.floor(m / 60);
     const min = m % 60;
-    return `${String(h).padStart(2, '0')}:${String(min).padStart(2, '0')}`;
+    return `${String(h).padStart(2, "0")}:${String(min).padStart(2, "0")}`;
   };
 
   let current = toMinutes(doctor.avlblStartTime);
@@ -256,7 +266,24 @@ const getAvailableSlots = async (doctorEmployeeId, appointmentDate) => {
       start: toTime(current),
       end: toTime(current + 30)
     });
+
     current += 30;
+  }
+
+  // ✅ IF TODAY → REMOVE PAST TIME SLOTS
+  const isToday =
+    selected.getTime() === today.getTime();
+
+  let filteredSlots = slots;
+
+  if (isToday) {
+    const now = new Date();
+    const currentMinutes =
+      now.getHours() * 60 + now.getMinutes();
+
+    filteredSlots = slots.filter(
+      slot => toMinutes(slot.start) > currentMinutes
+    );
   }
 
   // ✅ REMOVE BOOKED SLOTS
@@ -267,9 +294,9 @@ const getAvailableSlots = async (doctorEmployeeId, appointmentDate) => {
   });
 
   // ✅ MARK SLOTS WITH BOOKED STATUS
-  const finalSlots = slots.map(slot => {
-    const isBooked = booked.some(b =>
-      b.timeslot.start === slot.start
+  const finalSlots = filteredSlots.map(slot => {
+    const isBooked = booked.some(
+      b => b.timeslot.start === slot.start
     );
 
     return {

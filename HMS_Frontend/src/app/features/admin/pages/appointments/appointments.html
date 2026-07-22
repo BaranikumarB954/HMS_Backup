@@ -13,37 +13,24 @@
   </div>
 
   <!-- STATUS TABS -->
-  <div class="status-tabs">
+  <!-- STATUS FILTER -->
+<div class="status-filter">
 
-    <button 
-      class="tab-btn"
-      [class.active]="statusFilter === 'ALL'"
-      (click)="setStatus('ALL')">
-      All
-    </button>
+  <label for="statusFilter">Status</label>
 
-    <button 
-      class="tab-btn"
-      [class.active]="statusFilter === 'BOOKED'"
-      (click)="setStatus('BOOKED')">
-      Booked
-    </button>
+  <select
+    id="statusFilter"
+    [(ngModel)]="statusFilter"
+    (change)="onStatusChange()">
 
-    <button 
-      class="tab-btn"
-      [class.active]="statusFilter === 'COMPLETED'"
-      (click)="setStatus('COMPLETED')">
-      Completed
-    </button>
+    <option value="ALL">All</option>
+    <option *ngFor="let status of appointmentStatuses" [value]="status">
+      {{ status }}
+    </option>
 
-    <button 
-      class="tab-btn"
-      [class.active]="statusFilter === 'CANCELLED'"
-      (click)="setStatus('CANCELLED')">
-      Cancelled
-    </button>
+  </select>
 
-  </div>
+</div>
 
   <!-- TABLE CARD -->
   <div class="card">

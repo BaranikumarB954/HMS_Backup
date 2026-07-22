@@ -11,6 +11,8 @@ import { AdminDepartment } from './pages/department/department';
 import { AdminApprovals } from './pages/approvals/approvals';
 import { AdminAppointments } from './pages/appointments/appointments';
 import { AdminDoctor } from './pages/doctor/doctor';
+import { HealthRecordComponent } from './pages/health-record/health-record';
+import { AddHealthRecord } from '../../shared/components/add-health-record/add-health-record';
 
 export const ADMIN_ROUTES: Routes = [
   {
@@ -56,6 +58,14 @@ export const ADMIN_ROUTES: Routes = [
       {
         path : 'add-appointment',
         component : AddAppointment
+      },
+      {
+        path : 'health-records',
+        component : HealthRecordComponent
+      },
+      {
+        path : 'add-healthRecord',
+        component : AddHealthRecord
       },
       {
         path: '',

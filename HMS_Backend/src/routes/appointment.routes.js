@@ -7,7 +7,7 @@ const { createAppointment,getAppointments,getAppointmentById,updateAppointment,d
 const router = createRouter();
 
 router.get('/myAppointments',auth,getMyAppointments);
-router.post('/addAppointment',auth,authorize(PERMISSIONS.CREATE_APPOINTMENT),authorizeAppointment('CREATE'),createAppointment);
+router.post('/addAppointment',auth,authorize(PERMISSIONS.CREATE_APPOINTMENT),(req,res,next)=>{console.log("Summa"); next();},authorizeAppointment('CREATE'),createAppointment);
 router.get('/getAppointments',auth,getAppointments);
 router.get('/getApmntById/:id',auth,getAppointmentById);
 router.get('/slots',auth,getSlots);

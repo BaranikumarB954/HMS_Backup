@@ -1,0 +1,230 @@
+<div class="popup-overlay">
+
+  <div class="popup">
+
+    <!-- HEADER -->
+    <div class="popup-header">
+
+      <h2>
+        {{
+          isView
+            ? 'View Health Record'
+            : (isEdit() ? 'Update Health Record' : 'Create Health Record')
+        }}
+      </h2>
+
+      <button class="close-btn" (click)="cancel()">✕</button>
+
+    </div>
+
+    <!-- BODY -->
+    <div class="popup-body">
+
+      <!-- APPOINTMENT -->
+      <div class="form-group">
+        <label>Appointment ID</label>
+        <input
+          type="text"
+          [(ngModel)]="form().appointmentId"
+          [disabled]="isView"
+          placeholder="Enter Appointment ID"
+        />
+      </div>
+
+      <!-- SYMPTOMS -->
+      <div class="form-group">
+        <label>Symptoms</label>
+        <textarea
+          [(ngModel)]="form().symptoms"
+          [disabled]="isView"
+          placeholder="Enter symptoms">
+        </textarea>
+      </div>
+
+      <!-- DIAGNOSIS -->
+      <div class="form-group">
+        <label>Diagnosis</label>
+        <textarea
+          [(ngModel)]="form().diagnosis"
+          [disabled]="isView"
+          placeholder="Enter diagnosis">
+        </textarea>
+      </div>
+
+      <!-- NOTES -->
+      <div class="form-group">
+        <label>Notes</label>
+        <textarea
+          [(ngModel)]="form().notes"
+          [disabled]="isView"
+          placeholder="Enter notes">
+        </textarea>
+      </div>
+
+      <!-- LAB / RADIOLOGY -->
+      <div class="checkbox-group">
+
+        <label>
+          <input
+            type="checkbox"
+            [(ngModel)]="form().isLabRequired"
+            [disabled]="isView"
+          />
+          Lab Required
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            [(ngModel)]="form().isRadiologyRequired"
+            [disabled]="isView"
+          />
+          Radiology Required
+        </label>
+
+      </div>
+
+      <!-- PRESCRIPTION TITLE -->
+      <div class="section-title">
+        Prescriptions
+      </div>
+
+      <!-- MEDICINE LIST -->
+      <div
+        class="medicine-card"
+        *ngFor="let p of form().prescriptions; let i = index">
+
+        <div class="medicine-header">
+
+          <h4>Medicine {{ i + 1 }}</h4>
+
+          <button
+            *ngIf="!isView && form().prescriptions.length > 1"
+            class="btn-remove"
+            (click)="removeMedicine(i)">
+
+            Remove
+
+          </button>
+
+        </div>
+
+        <div class="medicine-grid">
+
+          <!-- Medicine -->
+          <input
+            type="text"
+            placeholder="Medicine Name"
+            [(ngModel)]="p.name"
+            [disabled]="isView"
+          />
+
+          <!-- Strength -->
+          <input
+            type="text"
+            placeholder="Strength (500 mg)"
+            [(ngModel)]="p.strength"
+            [disabled]="isView"
+          />
+
+          <!-- Food Timing -->
+          <select
+            [(ngModel)]="p.timing.foodTiming"
+            [disabled]="isView">
+
+            <option value="BEFORE_FOOD">Before Food</option>
+            <option value="AFTER_FOOD">After Food</option>
+
+          </select>
+
+          <!-- Duration -->
+          <input
+            type="number"
+            min="1"
+            placeholder="Duration (Days)"
+            [(ngModel)]="p.timing.durationDays"
+            [disabled]="isView"
+          />
+
+          <!-- Instructions -->
+          <input
+            type="text"
+            placeholder="Instructions"
+            [(ngModel)]="p.instructions"
+            [disabled]="isView"
+          />
+
+        </div>
+
+        <!-- MORNING / AFTERNOON / NIGHT -->
+        <div class="timing-box">
+
+          <label>
+            <input
+              type="checkbox"
+              [(ngModel)]="p.timing.morning"
+              [disabled]="isView"
+            />
+            Morning
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              [(ngModel)]="p.timing.afternoon"
+              [disabled]="isView"
+            />
+            Afternoon
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              [(ngModel)]="p.timing.night"
+              [disabled]="isView"
+            />
+            Night
+          </label>
+
+        </div>
+
+      </div>
+
+      <!-- ADD MEDICINE -->
+      <button
+        *ngIf="!isView"
+        type="button"
+        class="btn-secondary"
+        (click)="addMedicine()">
+
+        + Add Medicine
+
+      </button>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="popup-footer">
+
+      <button
+        class="btn-cancel"
+        (click)="cancel()">
+
+        {{ isView ? 'Close' : 'Cancel' }}
+
+      </button>
+
+      <button
+        *ngIf="!isView"
+        class="btn-save"
+        (click)="save()">
+
+        {{ loading() ? 'Saving...' : (isEdit() ? 'Update' : 'Save') }}
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

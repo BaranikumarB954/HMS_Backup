@@ -1,0 +1,153 @@
+<div class="page">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1>Health Records</h1>
+  </div>
+
+  <!-- ACTION BAR -->
+  <div class="page-actions">
+    <button
+      class="btn-primary"
+      (click)="openPopup(undefined,'add')">
+
+      + Add Health Record
+
+    </button>
+  </div>
+
+  <!-- CARD -->
+  <div class="card">
+
+    <div class="table-wrapper">
+
+      <table class="table">
+
+        <thead>
+
+          <tr>
+
+            <th>Record ID</th>
+
+            <th>Appointment</th>
+
+            <th>Patient</th>
+
+            <th>Doctor</th>
+
+            <th>Diagnosis</th>
+
+            <th>Status</th>
+
+            <th>Actions</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let record of healthRecords()">
+
+            <td>{{ record.recordId }}</td>
+
+            <td>{{ record.appointmentId?.appointmentId }}</td>
+
+            <td>
+                {{ record.patientId?.userId?.firstName }}
+                {{ record.patientId?.userId?.lastName }}
+            </td>
+
+            <td>
+                {{ record.doctorId?.employeeId?.userId?.firstName }}
+                {{ record.doctorId?.employeeId?.userId?.lastName }}
+            </td>
+
+            <td>
+              {{ record.diagnosis || '-' }}
+            </td>
+
+            <td>
+
+              <span
+                class="status-pill"
+                [ngClass]="{
+                  'draft': record.status === 'DRAFT',
+                  'final': record.status === 'FINAL'
+                }">
+
+                {{ record.status }}
+
+              </span>
+
+            </td>
+
+            <td class="actions">
+
+              <button
+                class="btn-view"
+                (click)="openPopup(record,'view')">
+
+                View
+
+              </button>
+
+              <button
+                class="btn-edit"
+                (click)="openPopup(record,'edit')">
+
+                Edit
+
+              </button>
+
+              <button
+                class="btn-warning"
+                (click)="delete(record._id)">
+
+                Delete
+
+              </button>
+
+            </td>
+
+          </tr>
+
+          <!-- Empty State -->
+
+          <tr *ngIf="healthRecords().length === 0">
+
+            <td
+              colspan="7"
+              class="text-center">
+
+              No Health Records Found
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- POPUP -->
+
+<app-add-health-record
+
+  *ngIf="showPopup()"
+
+  [editData]="selectedRecord()"
+  
+  [isView] = "isView()"
+
+  (close)="closePopup()"
+
+  (refresh)="onSaved()">
+
+</app-add-health-record>

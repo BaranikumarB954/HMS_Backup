@@ -5,6 +5,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const mongoose = require('mongoose')
+const cookieParse = require("cookie-parser");
 
 const dns = require('dns');
 dns.setDefaultResultOrder('ipv4first');
@@ -13,6 +14,8 @@ const userRoutes = require('./routes/user.routes');
 const authRoutes = require('./routes/auth.routes');
 const employeeRoutes = require('./routes/employee.routes')
 const ownerRoutes = require('./routes/owner.routes');
+const healthRecordRoutes = require('./routes/healthRecord.routes');
+
 const receptionRoutes = require('./routes/receptionist.routes');
 const approvalRoutes = require('./routes/approval.routes');
 const adminRoutes = require('./routes/admin.routes');
@@ -20,6 +23,7 @@ const patientRoutes = require('./routes/patient.routes');
 const deptRoutes = require('./routes/dept.routes');
 const appointmentRoutes = require('./routes/appointment.routes')
 const doctorRoutes = require('./routes/doctor.routes')
+const masterRoutes = require("./routes/master.routes");
 
 const errorHandler = require('./middleware/errorHandler.middleware');
 const seedRoles = require('./utils/seedRoles');
@@ -27,7 +31,8 @@ const seedDepartments = require('./utils/seedDepartments');
 const seedOwner = require('./utils/seedOwner')
 const seedRoleMenus = require('./utils/roleMenu.seed');
 const seedMenus = require('./utils/menu.seed');
-const connectDB = require('./config/db')
+const connectDB = require('./config/db');
+const cookieParser = require('cookie-parser');
 const startServer = async () => {
   await connectDB();
 
@@ -52,18 +57,20 @@ app.use(cors(
         credentials:true,
     }
 ),);
-
+app.use(cookieParser());
 app.use(morgan('dev'));
 
 app.use(express.json());
 
 app.use('/api/auth',authRoutes);
+app.use('/api/master',masterRoutes);
 app.use('/api/register-approval',approvalRoutes )
 app.use('/api/admin',adminRoutes);
 app.use('/api/employee',employeeRoutes);
 app.use('/api/department',deptRoutes);
 app.use('/api/patients',patientRoutes);
-app.use('/api/doctor',doctorRoutes)
+app.use('/api/doctor',doctorRoutes);
+app.use('/api/health-record',healthRecordRoutes)
 app.use('/api/appointments',appointmentRoutes)
 app.use('/api/user',userRoutes);
 app.use('/api',metaRoutes);

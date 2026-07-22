@@ -1,109 +1,140 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { AppointmentService } from '../../../../services/appointmentServices/appointment-service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+
+import { AppointmentService } from '../../../../services/appointmentServices/appointment-service';
+
 import { AddAppointment } from '../../../../shared/components/add-appointment/add-appointment';
 import { NoDataComponent } from '../../../../shared/components/common/noData/no-data/no-data';
 import { PaginationComponent } from '../../../../shared/components/common/pagination/pagination';
 
 @Component({
   selector: 'app-appointments',
-  imports: [CommonModule,FormsModule,AddAppointment,NoDataComponent,PaginationComponent],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    AddAppointment,
+    NoDataComponent,
+    PaginationComponent
+  ],
   templateUrl: './appointments.html',
-  styleUrl: './appointments.css',
+  styleUrl: './appointments.css'
 })
-export class AdminAppointments implements OnInit{
-appointments: any[] = [];
+export class AdminAppointments implements OnInit {
+
+  appointments: any[] = [];
 
   page = 1;
   limit = 5;
   totalPages = 1;
 
-  showModal = false;
+  showPopup = false;
+
+  statusFilter = 'ALL';
+
+  appointmentStatuses = [
+    'PENDING',
+    'APPROVED',
+    'REJECTED',
+    'BOOKED',
+    'CANCELLED',
+    'COMPLETED'
+  ];
 
   form: any = {
     patientUHID: '',
     doctorEmployeeId: '',
     deptName: '',
     appointmentDate: '',
-    timeslot: { start: '', end: '' }
+    timeslot: {
+      start: '',
+      end: ''
+    }
   };
 
-  constructor(private service: AppointmentService, private cd : ChangeDetectorRef) {}
+  constructor(
+    private service: AppointmentService,
+    private cd: ChangeDetectorRef
+  ) {}
 
-  statusFilter = 'ALL';
-
-load() {
-  this.service.getAppointments(this.page, this.limit, this.statusFilter)
-    .subscribe((res: any) => {
-      this.appointments = res.data.data;
-      this.totalPages = res.data.pagination.totalPages;
-      this.cd.detectChanges();
-    });
-}
-
-setStatus(status: string) {
-  this.statusFilter = status;
-  this.page = 1;
-  this.load();
-}
-
-changeStatus(id: string, status: string) {
-  this.service.updateStatus(id, status).subscribe(() => {
-    this.load();
-  });
-}
-
-onPageChange(p: number) {
-  this.page = p;
-  this.load();
-}
-
-onLimitChange(l: number) {
-  this.limit = l;
-  this.page = 1;
-  this.load();
-}
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.load();
   }
 
-  showPopup = false;
+  load(): void {
+    this.service
+      .getAppointments(this.page, this.limit, this.statusFilter)
+      .subscribe({
+        next: (res: any) => {
+          this.appointments = res.data.data;
+          this.totalPages = res.data.pagination.totalPages;
+          this.cd.detectChanges();
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      });
+  }
 
-  openPopup() {
+  onStatusChange(): void {
+    this.page = 1;
+    this.load();
+  }
+
+  changeStatus(id: string, status: string): void {
+    this.service.updateStatus(id, status).subscribe({
+      next: () => this.load(),
+      error: (err) => console.error(err)
+    });
+  }
+
+  onPageChange(page: number): void {
+    this.page = page;
+    this.load();
+  }
+
+  onLimitChange(limit: number): void {
+    this.limit = limit;
+    this.page = 1;
+    this.load();
+  }
+
+  openPopup(): void {
     this.showPopup = true;
   }
 
-  closePopup() {
+  closePopup(): void {
     this.showPopup = false;
   }
 
-  onAppointmentAdded() {
+  onAppointmentAdded(): void {
     this.closePopup();
-    this.load(); // refresh table
+    this.load();
   }
 
- 
-  submit() {
+  submit(): void {
     this.service.createAppointment(this.form).subscribe({
       next: () => {
-        alert("Appointment Created Successfully");
+        alert('Appointment Created Successfully');
         this.closePopup();
         this.load();
-        this.cd.detectChanges();
-
       },
-      error: (err) => alert(err.error.message)
+      error: (err) => {
+        alert(err.error.message);
+      }
     });
   }
 
- 
-  delete(id: string) {
-    if (confirm('Are you sure?')) {
-      this.service.delete(id).subscribe(() => this.load());
+  delete(id: string): void {
+    if (!confirm('Are you sure?')) {
+      return;
     }
+
+    this.service.delete(id).subscribe({
+      next: () => this.load(),
+      error: (err) => console.error(err)
+    });
   }
 
 }
